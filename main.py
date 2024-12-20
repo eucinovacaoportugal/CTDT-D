@@ -1,24 +1,39 @@
 from utils import get_energy_data_for_portugal
+from models.component import Component, DigitalTwin
+from evaluator.ecological_evaluator import EcologicalEvaluator
 
-def main():
-    api_key = "pnu0oRE4gsIMK" 
-
-    print("Fetching renewable energy data for Portugal...")
+def evaluate_digital_twin(api_key: str) -> None:
     energy_data = get_energy_data_for_portugal(api_key)
-
-    if energy_data:
-        print(f"Zone: {energy_data['zone']}")
-        print(f"Renewable Energy Percentage: {energy_data['renewable_percentage']}%")
-        print(f"Fossil-Free Energy Percentage: {energy_data['fossil_free_percentage']}%")
-        print("\nPower Consumption Breakdown:")
-        for source, amount in energy_data["details"]["power_consumption"].items():
-            print(f"  {source}: {amount} MW")
-
-        print("\nPower Production Breakdown:")
-        for source, amount in energy_data["details"]["power_production"].items():
-            print(f"  {source}: {amount} MW")
+    if not energy_data:
+        print("Failed to fetch energy data. Using default values.")
+        renewable_percentage = 50.0
     else:
-        print("Failed to fetch renewable energy data for Portugal.")
+        renewable_percentage = energy_data['renewable_percentage']
+        
+    components = [
+        Component("Temperature Sensor", "sensor", 0.5, 5),
+        Component("Pressure Sensor", "sensor", 0.3, 5),
+        Component("Display Monitor", "monitor", 2.0, 3),
+    ]
+    
+    twin = DigitalTwin(
+        components=components,
+        is_reusable=True,
+        energy_source_renewable_percentage=renewable_percentage,
+        total_energy_consumption=sum(c.energy_consumption for c in components),
+        waste_generated=1.5 #kg
+    )
+    
+    evaluator = EcologicalEvaluator()
+    score, classification, detailed_scores = evaluator.evaluate(twin)
+    
+    print("\nDigital Twin Ecological Evaluation Results:")
+    print(f"Final Score: {score:.2f}/100")
+    print(f"Classification: {classification}")
+    print("\nDetailed Scores:")
+    for criterion, score in detailed_scores.items():
+        print(f"    {criterion}: {score:.2f}/100")
 
 if __name__ == "__main__":
-    main()
+    api_key = "pnu0oRE4gsIMK" 
+    evaluate_digital_twin(api_key)

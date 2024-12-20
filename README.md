@@ -15,4 +15,4 @@ Algorithm Steps
     -A final score (0–100) and classification:
         Ecologic: Score ≥ 75.
         Moderate: Score 50–74.
-        Not Ecologic: Score < 50.
+        Not ecologic: Score < 50.
