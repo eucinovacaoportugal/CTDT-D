@@ -1,31 +1,24 @@
-from utils import get_live_metrics, get_energy_data, evaluate_digital_twin
+from utils import get_energy_data_for_portugal
 
 def main():
-    print("Gathering live system metrics...")
-    cpu_usage, memory_usage = get_live_metrics()
-    print(f"CPU usage: {cpu_usage}%, Memory usage: {memory_usage}%")
-    
-    print("Fetching energy data...")
-    energy_data = get_energy_data("US")
-    renewable_energy_percentage = energy_data.get("renewable_percentage", 0)
-    print(f"Renewable energy percentage: {renewable_energy_percentage}%")
-    
-    #example inputs
-    data_acquisition = {
-        "type": "sensors",
-        "energy_consumption": cpu_usage *5,
-        "hardware_waste": 0.5 #kg
-    }
-    is_renewable = True #can be reused
-    hardware_waste = 2.5 #kg
-    
-    #eco score
-    score, classification = evaluate_digital_twin(
-        data_acquisition, is_renewable, {"total_consumption": cpu_usage, "is_renewable": renewable_energy_percentage > 50}, hardware_waste
-    )
-    
-    print(f"DT ecological score: {score/100}")
-    print(f"Classification: {classification}")
-    
+    api_key = "pnu0oRE4gsIMK" 
+
+    print("Fetching renewable energy data for Portugal...")
+    energy_data = get_energy_data_for_portugal(api_key)
+
+    if energy_data:
+        print(f"Zone: {energy_data['zone']}")
+        print(f"Renewable Energy Percentage: {energy_data['renewable_percentage']}%")
+        print(f"Fossil-Free Energy Percentage: {energy_data['fossil_free_percentage']}%")
+        print("\nPower Consumption Breakdown:")
+        for source, amount in energy_data["details"]["power_consumption"].items():
+            print(f"  {source}: {amount} MW")
+
+        print("\nPower Production Breakdown:")
+        for source, amount in energy_data["details"]["power_production"].items():
+            print(f"  {source}: {amount} MW")
+    else:
+        print("Failed to fetch renewable energy data for Portugal.")
+
 if __name__ == "__main__":
     main()
