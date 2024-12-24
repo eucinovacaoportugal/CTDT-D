@@ -9,6 +9,7 @@ def evaluate_digital_twin(api_key: str) -> None:
         renewable_percentage = 50.0
     else:
         renewable_percentage = energy_data['renewable_percentage']
+        details = energy_data['details']
         
     components = [
         Component("Temperature Sensor", "sensor", 0.5, 5),
@@ -33,6 +34,18 @@ def evaluate_digital_twin(api_key: str) -> None:
     print("\nDetailed Scores:")
     for criterion, score in detailed_scores.items():
         print(f"    {criterion}: {score:.2f}/100")
+    
+    print("\nEnvironmental Impact (CO₂ Emissions):")
+    for source, emissions in details["emissions"].items():
+        print(f"    {source}: ${emissions}/kWh")
+    
+    print("\n   Energy Cost (Economic Efficiency):")
+    for source, cost in details["energy_cost"].items():
+        print(f"        {source}: ${cost}/kWh")
+        
+    print("\n   Component Lifespan (Years):")
+    for source, lifespan in details["component_lifespan"].items():
+        print(f"        {source}: {lifespan} years")
 
 if __name__ == "__main__":
     api_key = "pnu0oRE4gsIMK" 
