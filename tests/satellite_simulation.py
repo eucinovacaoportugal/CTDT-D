@@ -3,5 +3,7 @@ def get_satellite_components():
     return[
         Component("Optical Sensor", "sensor", 1.5, 10),
         Component("Radar Sensor", "sensor", 2.0, 8),
-        Component("Weather Station", "sensor", 3.0, 7)
+        Component("Weather Station", "sensor", 3.0, 7),
+        Component("Antenna", "antenna", 1.8, 10)
+
     ]

@@ -14,34 +14,22 @@ def get_energy_data_for_portugal(api_key):
         
         renewable_percentage = data.get("renewablePercentage", 0)
         fossil_free_percentage = data.get("fossilFreePercentage", 0)
-        emissions = data.get("emissions", {})
-        energy_cost = { #cost per kWh
-            "wind": 0.04,
-            "solar": 0.05,
-            "hydro": 0.03,
-            "gas": 0.08,
-            "coal": 0.10
-        }
-        component_lifespan = { #years
-            "wind": 20,
-            "solar": 25,
-            "hydro": 50,
-            "gas": 15,
-            "coal":30
+        base_values = {
+            "optical_sensors": {"emission": 50.0, "cost": 0.08, "lifespan": 15.0},
+            "radar_sensor": {"emission": 60.0, "cost": 0.10, "lifespan": 12.0},
+            "weather_station": {"emission": 70.0, "cost": 0.012, "lifespan": 10.0},
+            "accelerometer": {"emission": 20.0, "cost": 0.05, "lifespan": 8.0},
+            "gyroscope": {"emission": 25.0, "cost": 0.06, "lifespan": 9.0},
+            "heart_rate_monitor": {"emission": 30.0, "cost": 0.07, "lifespan": 7.0},
         }
 
         return {
             "zone": "PT",
             "renewable_percentage": renewable_percentage,
             "fossil_free_percentage": fossil_free_percentage,
-            "details": {
-                "power_consumption": data.get("powerConsumptionBreakdown", {}),
-                "power_production": data.get("powerProductionBreakdown", {}),
-                "emissions": emissions,
-                "energy_cost": energy_cost,
-                "component_lifespan": component_lifespan
-            }
+            "details": base_values
         }
+        
     except Exception as e:
         print(f"Error fetching energy data for PT: {e}")
         return None
