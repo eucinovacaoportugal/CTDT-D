@@ -30,13 +30,17 @@ function App() {
   };
 
   const evaluateTwin = async () => {
-    const response = await fetch('http://localhost:5000/evaluate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ application, components })
-    });
-    const data = await response.json();
-    setResults(data);
+    try{
+      const response = await fetch ('http://localhost:5000/evaluate', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({application, components})
+      })
+      const data: EvaluationResults = await response.json();
+      setResults(data);
+    } catch (error) {
+      console.error('Error evaluating digital twin:', error);
+    }
   };
 
   return (
