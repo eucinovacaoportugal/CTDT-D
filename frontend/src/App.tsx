@@ -15,9 +15,10 @@ interface EvaluationResults {
 }
 
 function App() {
-  const [application, setApplication] = useState('rehabilitation');
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
+  const [history, setHistory] = useState<EvaluationResults[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const addComponent = () => {
     setComponents([...components, { name: '', type: '', consumption: 0, lifespan: 0 }]);
@@ -34,13 +35,14 @@ function App() {
       const response = await fetch('http://127.0.0.1:5001/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ application, components })
+        body: JSON.stringify({ components })
       });
       if (!response.ok) {
         throw new Error('Failed to fetch results');
       }
       const data: EvaluationResults = await response.json();
       setResults(data);
+      setHistory([...history, data]);
     } catch (error) {
       console.error('Error evaluating digital twin:', error);
       alert('Failed to evaluate digital twin. Please check the input and server connection.');
@@ -49,35 +51,52 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Digital Twin Evaluator</h1>
+      <header>
+      <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? '☰' : '☰'}
+        </button>
+        <h1>Digital Twin Evaluator</h1>
+      </header>
+      <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <h2>History</h2>
+        <ul>
+          {history.map((entry, index) => (
+            <li key={index}>Score: {entry.final_score} - {entry.classification}</li>
+          ))}
+        </ul>
+      </div>
       <form>
-        <label>Application Type:</label>
-        <select value={application} onChange={(e) => setApplication(e.target.value)}>
-          <option value="satellite">Satellite</option>
-          <option value="rehabilitation">Rehabilitation</option>
-        </select>
-
         <h2>Components</h2>
         {components.map((component, index) => (
-          <div key={index}>
+          <div key={index} className="component-group">
+            <h3>#{index + 1}</h3>
+            <label>Name:</label>
             <input
               type="text"
               placeholder="Name"
               value={component.name}
               onChange={(e) => handleComponentChange(index, 'name', e.target.value)}
             />
+            <label>Type:</label>
             <input
               type="text"
               placeholder="Type"
               value={component.type}
               onChange={(e) => handleComponentChange(index, 'type', e.target.value)}
             />
+            <label>Consumption (kWh/day):</label>
             <input
               type="number"
-              placeholder="Value (step 0.5)"
               step="0.5"
               value={component.consumption}
               onChange={(e) => handleComponentChange(index, 'consumption', parseFloat(e.target.value))}
+            />
+            <label>Lifespan (years):</label>
+            <input
+              type="number"
+              step="1"
+              value={component.lifespan}
+              onChange={(e) => handleComponentChange(index, 'lifespan', parseFloat(e.target.value))}
             />
           </div>
         ))}

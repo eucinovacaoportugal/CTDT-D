@@ -1,7 +1,7 @@
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: #fff;
+  color: #fff;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -10,23 +10,76 @@ body {
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
 }
 
-h1 {
-  color: #bb86fc;
-  font-size: 2.5rem;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000;
+  padding: 1rem 2rem;
+  color: #fff;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+header h1 {
+  font-size: 1.8rem;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #111;
+  color: #fff;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar h2 {
   margin-bottom: 1rem;
+  color: #fff;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: #222;
+  border-radius: 8px;
+}
+
+.toggle-btn {
+  background-color: #0fd850;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 form {
-  background: #1e1e1e;
+  background: #000;
   padding: 2rem;
   margin: 1rem auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-  max-width: 600px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  max-width: 800px;
 }
 
 input, select, button {
@@ -34,15 +87,16 @@ input, select, button {
   margin: 0.5rem 0;
   padding: 0.75rem;
   font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #333;
-  background-color: #333;
-  color: #e0e0e0;
+  border-radius: 12px;
+  border: 1px solid #444;
+  background-color: #000;
+  color: #fff;
+  transition: all 0.3s ease;
 }
 
 button {
-  background-color: #bb86fc;
-  color: white;
+  background-color: #0fd850;
+  color: #000;
   font-weight: bold;
   border: none;
   cursor: pointer;
@@ -50,24 +104,51 @@ button {
 }
 
 button:hover {
-  background-color: #9c72e9;
+  background-color: #1acb70;
 }
 
 .results {
   margin-top: 2rem;
   padding: 1rem;
-  background: #1e1e1e;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  background: #000;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
 }
 
 .results h2 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: #bb86fc;
+  color: #0fd850;
 }
 
 .results p {
   font-size: 1rem;
   margin: 0.5rem 0;
+}
+
+.component-group {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.component-group h3 {
+  color: #0fd850;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #aaa;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+input:focus, select:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 5px #0fd850;
 }
