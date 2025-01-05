@@ -43,7 +43,7 @@ function App() {
 
   const evaluateTwin = async () => {
     try {
-      const response = await fetch('http://3.75.158.163/evaluate', {
+      const response = await fetch('https://ctdt-d.onrender.com/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
