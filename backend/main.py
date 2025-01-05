@@ -1,4 +1,4 @@
-from flask import Flask, app, request, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from utils import get_energy_data_for_portugal
 from models.component import Component, DigitalTwin
@@ -30,10 +30,10 @@ def evaluate_digital_twin():
 
         twin = DigitalTwin(
             components=components,
-            is_reusable=True, 
+            is_reusable=True,
             energy_source_renewable_percentage=renewable_percentage,
             total_energy_consumption=sum(c.energy_consumption for c in components),
-            waste_generated=1.5
+            waste_generated=sum(c.energy_consumption * 0.02 for c in components)  
         )
 
         evaluator = EcologicalEvaluator()
@@ -49,4 +49,4 @@ def evaluate_digital_twin():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001) 
+    app.run(debug=True, host='0.0.0.0', port=5001)

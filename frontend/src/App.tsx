@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 interface ComponentData {
@@ -20,6 +20,17 @@ function App() {
   const [history, setHistory] = useState<EvaluationResults[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  useEffect(() => {
+    const savedHistory = localStorage.getItem('evaluationHistory');
+    if (savedHistory) {
+      setHistory(JSON.parse(savedHistory));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('evaluationHistory', JSON.stringify(history));
+  }, [history]);
+
   const addComponent = () => {
     setComponents([...components, { name: '', type: '', consumption: 0, lifespan: 0 }]);
   };
@@ -35,24 +46,35 @@ function App() {
       const response = await fetch('http://127.0.0.1:5001/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ components })
+        body: JSON.stringify({
+          application: 'custom',
+          components: components,
+        })
       });
+
       if (!response.ok) {
         throw new Error('Failed to fetch results');
       }
+
       const data: EvaluationResults = await response.json();
       setResults(data);
-      setHistory([...history, data]);
+      const updatedHistory = [...history, data];
+      setHistory(updatedHistory);
     } catch (error) {
       console.error('Error evaluating digital twin:', error);
       alert('Failed to evaluate digital twin. Please check the input and server connection.');
     }
   };
 
+  const clearHistory = () => {
+    setHistory([]);
+    localStorage.removeItem('evaluationHistory');
+  };
+
   return (
     <div className="App">
       <header>
-      <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
           {sidebarOpen ? '☰' : '☰'}
         </button>
         <h1>Digital Twin Evaluator</h1>
@@ -61,9 +83,12 @@ function App() {
         <h2>History</h2>
         <ul>
           {history.map((entry, index) => (
-            <li key={index}>Score: {entry.final_score} - {entry.classification}</li>
+            <li key={index}>
+              Score: {entry.final_score} - {entry.classification}
+            </li>
           ))}
         </ul>
+        <button onClick={clearHistory}>Clear History</button>
       </div>
       <form>
         <h2>Components</h2>
@@ -110,9 +135,10 @@ function App() {
           <p>Final Score: {results.final_score}</p>
           <p>Classification: {results.classification}</p>
           <h3>Detailed Scores:</h3>
-          {Object.entries(results.detailed_scores).map(([key, value]) => (
-            <p key={key}>{key}: {value}</p>
-          ))}
+          <p>Component Efficiency: {results.detailed_scores['component_efficiency']}</p>
+          <p>Energy Source: {results.detailed_scores['energy_source']}</p>
+          <p>Reusability: {results.detailed_scores['reusability']}</p>
+          <p>Waste: {results.detailed_scores['waste']}</p>
         </div>
       )}
     </div>

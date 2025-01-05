@@ -201,8 +201,7 @@ button:hover {
   color: #fff;
 }
 
-/* Responsive styles for smaller screens */
-@media screen and (max-width: 390px) { /* iPhone 13 Pro width */
+@media screen and (max-width: 390px) {
   header {
     padding: 1rem;
   }
