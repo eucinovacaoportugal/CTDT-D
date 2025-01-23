@@ -67,14 +67,14 @@ function App() {
 
   const evaluateTwin = async () => {
     try {
-      const response = await fetch('https://ctdt-d.onrender.com/', {
+      const response = await fetch('https://ctdt-d.onrender.com/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           application: 'custom',
           components: components,
-        })
-      });
+        }),
+      });      
 
       if (!response.ok) {
         throw new Error('Failed to fetch results');
