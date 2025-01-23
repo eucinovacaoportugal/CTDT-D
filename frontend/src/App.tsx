@@ -19,6 +19,30 @@ function App() {
   const [results, setResults] = useState<EvaluationResults | null>(null);
   const [history, setHistory] = useState<EvaluationResults[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [popupOpen, setPopupOpen] = useState(false);
+
+  const componentDetails = [
+    {
+      type: "Wearable Sensors",
+      description: "Typically low-power devices using microcontrollers and specialized energy-efficient sensors, advanced designs use Bluetooth Low Energy (BLE) to minimize power drain."
+    },
+    {
+      type: "3D Motion Capture Systems",
+      description: "Higher energy consumption, professional systems use specialized GPUs and computers with high power requirements."
+    },
+    {
+      type: "Haptic Feedback Devices",
+      description: "Energy consumption varies by complexity, battery-powered versions optimize energy efficiency through pulse-width modulation."
+    },
+    {
+      type: "Portable Ultrasound Machines",
+      description: "Battery-powered models last 1-2 hours per charge, components like transducers and signal processors contribute to energy consumption."
+    },
+    {
+      type: "Wireless Communication Devices",
+      description: "Modern devices use adaptive power management to reduce overall energy use, highest power consumption up to 5 W."
+    }
+  ];
 
   useEffect(() => {
     const savedHistory = localStorage.getItem('evaluationHistory');
@@ -43,7 +67,7 @@ function App() {
 
   const evaluateTwin = async () => {
     try {
-      const response = await fetch('https://ctdt-d.onrender.com/evaluate', {
+      const response = await fetch('http://127.0.0.1:5001/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -71,6 +95,10 @@ function App() {
     localStorage.removeItem('evaluationHistory');
   };
 
+  const togglePopup = () => {
+    setPopupOpen(!popupOpen);
+  };
+
   return (
     <div className="App">
       <header>
@@ -78,6 +106,7 @@ function App() {
           {sidebarOpen ? '☰' : '☰'}
         </button>
         <h1>Digital Twin Evaluator</h1>
+        <button className="info-btn" onClick={togglePopup}>i</button>
       </header>
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <h2>History</h2>
@@ -90,6 +119,22 @@ function App() {
         </ul>
         <button onClick={clearHistory}>Clear History</button>
       </div>
+
+      {popupOpen && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Component Overview</h2>
+            {componentDetails.map((detail, index) => (
+              <div key={index}>
+                <h3>{detail.type}</h3>
+                <p>{detail.description}</p>
+              </div>
+            ))}
+            <button onClick={togglePopup}>x</button>
+          </div>
+        </div>
+      )}
+
       <form>
         <h2>Components</h2>
         {components.map((component, index) => (
