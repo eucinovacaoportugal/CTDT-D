@@ -24,7 +24,7 @@ function App() {
   const componentDetails = [
     {
       type: "Wearable Sensors",
-      description: "Typically low-power devices using microcontrollers and specialized energy-efficient sensors, advanced designs use Bluetooth Low Energy (BLE) to minimize power drain."
+      description: "Typically low-power devices using microcontrollers and specialized energy-efficient sensors, advanced designs use Bluetooth Low Energy to minimize power drain."
     },
     {
       type: "3D Motion Capture Systems",
@@ -106,7 +106,7 @@ function App() {
           {sidebarOpen ? '☰' : '☰'}
         </button>
         <h1>Digital Twin Evaluator</h1>
-        <button className="info-btn" onClick={togglePopup}>i</button>
+        <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
       </header>
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <h2>History</h2>
@@ -123,14 +123,16 @@ function App() {
       {popupOpen && (
         <div className="popup-overlay">
           <div className="popup-content">
-            <h2>Component Overview</h2>
+            <div className="popup-header">
+              <h2>Component Overview</h2>
+              <button className="close-btn" onClick={togglePopup}>✕</button>
+            </div>
             {componentDetails.map((detail, index) => (
               <div key={index}>
                 <h3>{detail.type}</h3>
                 <p>{detail.description}</p>
               </div>
             ))}
-            <button onClick={togglePopup}>x</button>
           </div>
         </div>
       )}
