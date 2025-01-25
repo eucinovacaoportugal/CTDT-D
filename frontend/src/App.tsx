@@ -105,7 +105,7 @@ function App() {
         <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
           {sidebarOpen ? '☰' : '☰'}
         </button>
-        <h1>Digital Twin Evaluator</h1>
+        <h1>Ecological Evaluator</h1>
         <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
       </header>
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
