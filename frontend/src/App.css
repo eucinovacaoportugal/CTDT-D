@@ -23,12 +23,12 @@ header {
   padding: 2rem;
   color: #000080;
   width: 100%;  
-  max-width: 1500px; /* Max width to match other components */
+  max-width: 1500px; 
   box-sizing: border-box;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-right: 2rem; /* Added 2rem space on the right */
+  margin-right: 2rem; 
 }
 
 .toggle-btn {
