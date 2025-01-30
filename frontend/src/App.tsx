@@ -24,23 +24,23 @@ function App() {
   const componentDetails = [
     {
       type: "Wearable Sensors",
-      description: "Typically low-power devices using microcontrollers and specialized energy-efficient sensors, advanced designs use Bluetooth Low Energy to minimize power drain."
+      description: "Power Consumption (W/h): ≤ 0.1 (Optimized), 0.1 - 0.3 (Acceptable), > 0.3 (Unsustainable). Configure alerts for sensors exceeding 0.3 W/h to optimize."
     },
     {
       type: "3D Motion Capture Systems",
-      description: "Higher energy consumption, professional systems use specialized GPUs and computers with high power requirements."
+      description: "Energy Usage (kWh/session): ≤ 0.5 (Optimized), 0.5 - 1.5 (Acceptable), > 1.5 (Unsustainable). Set up monitoring to optimize session lengths."
     },
     {
       type: "Haptic Feedback Devices",
-      description: "Energy consumption varies by complexity, battery-powered versions optimize energy efficiency through pulse-width modulation."
+      description: "Energy per Use (W): ≤ 5 (Optimized), 5 - 15 (Acceptable), > 15 (Unsustainable). Review usage patterns or seek efficient alternatives."
     },
     {
       type: "Portable Ultrasound Machines",
-      description: "Battery-powered models last 1-2 hours per charge, components like transducers and signal processors contribute to energy consumption."
+      description: "Energy Consumption (W): ≤ 80 (Optimized), 80 - 200 (Acceptable), > 200 (Unsustainable). Optimize usage to stay under 200 W."
     },
     {
       type: "Wireless Communication Devices",
-      description: "Modern devices use adaptive power management to reduce overall energy use, highest power consumption up to 5 W."
+      description: "Energy Efficiency (W): ≤ 1 (Optimized), 1 - 5 (Acceptable), > 5 (Unsustainable). Replace devices exceeding 5 W to enhance efficiency."
     }
   ];
 
@@ -74,7 +74,7 @@ function App() {
           application: 'custom',
           components: components,
         }),
-      });      
+      });
 
       if (!response.ok) {
         throw new Error('Failed to fetch results');
@@ -102,12 +102,17 @@ function App() {
   return (
     <div className="App">
       <header>
-        <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
-          {sidebarOpen ? '☰' : '☰'}
-        </button>
-        <h1>Ecological Evaluator</h1>
+        <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
+        <div className="header-content">
+          <div className="header-logos">
+            <img src="/up2crc.png" alt="Up2Circ Logo" className="header-logo" />
+            <img src="/ctdt-c.png" alt="CTDT-C Logo" className="header-logo" />
+          </div>
+          <h1>Ecological Evaluator</h1>
+        </div>
         <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
       </header>
+
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <h2>History</h2>
         <ul>
