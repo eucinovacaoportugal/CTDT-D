@@ -24,15 +24,23 @@ function App() {
   const componentDetails = [
     {
       type: "Wearable Sensors",
-      description: "Low-power devices that use energy-efficient sensors."
+      description: "Typically low-power devices using microcontrollers and specialized energy-efficient sensors, advanced designs use Bluetooth Low Energy to minimize power drain."
     },
     {
       type: "3D Motion Capture Systems",
-      description: "High power consumption due to the use of GPUs and specialized computers."
+      description: "Higher energy consumption, professional systems use specialized GPUs and computers with high power requirements."
     },
     {
       type: "Haptic Feedback Devices",
-      description: "Power consumption varies depending on the complexity of the device."
+      description: "Energy consumption varies by complexity, battery-powered versions optimize energy efficiency through pulse-width modulation."
+    },
+    {
+      type: "Portable Ultrasound Machines",
+      description: "Battery-powered models last 1-2 hours per charge, components like transducers and signal processors contribute to energy consumption."
+    },
+    {
+      type: "Wireless Communication Devices",
+      description: "Modern devices use adaptive power management to reduce overall energy use, highest power consumption up to 5 W."
     }
   ];
 
