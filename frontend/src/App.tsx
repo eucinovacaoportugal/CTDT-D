@@ -24,23 +24,15 @@ function App() {
   const componentDetails = [
     {
       type: "Wearable Sensors",
-      description: "Power Consumption (W/h): ≤ 0.1 (Optimized), 0.1 - 0.3 (Acceptable), > 0.3 (Unsustainable). Configure alerts for sensors exceeding 0.3 W/h to optimize."
+      description: "Low-power devices that use energy-efficient sensors."
     },
     {
       type: "3D Motion Capture Systems",
-      description: "Energy Usage (kWh/session): ≤ 0.5 (Optimized), 0.5 - 1.5 (Acceptable), > 1.5 (Unsustainable). Set up monitoring to optimize session lengths."
+      description: "High power consumption due to the use of GPUs and specialized computers."
     },
     {
       type: "Haptic Feedback Devices",
-      description: "Energy per Use (W): ≤ 5 (Optimized), 5 - 15 (Acceptable), > 15 (Unsustainable). Review usage patterns or seek efficient alternatives."
-    },
-    {
-      type: "Portable Ultrasound Machines",
-      description: "Energy Consumption (W): ≤ 80 (Optimized), 80 - 200 (Acceptable), > 200 (Unsustainable). Optimize usage to stay under 200 W."
-    },
-    {
-      type: "Wireless Communication Devices",
-      description: "Energy Efficiency (W): ≤ 1 (Optimized), 1 - 5 (Acceptable), > 5 (Unsustainable). Replace devices exceeding 5 W to enhance efficiency."
+      description: "Power consumption varies depending on the complexity of the device."
     }
   ];
 
@@ -105,8 +97,8 @@ function App() {
         <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
         <div className="header-content">
           <div className="header-logos">
-            <img src="/up2crc.png" alt="Up2Circ Logo" className="header-logo" />
-            <img src="/ctdt-c.png" alt="CTDT-C Logo" className="header-logo" />
+            <img src="/up2circ.png" alt="Up2Circ Logo" className="up2circ-logo" />
+            <img src="/ctdt-c.png" alt="CTDT-C Logo" className="ctdt-logo" />
           </div>
           <h1>Ecological Evaluator</h1>
         </div>
