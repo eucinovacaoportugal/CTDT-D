@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { HelpCircle, X } from 'lucide-react';
 import './App.css';
 
 interface ComponentData {
@@ -13,6 +14,65 @@ interface EvaluationResults {
   classification: string;
   detailed_scores: Record<string, number>;
 }
+
+interface TooltipProps {
+  content: string;
+  children: React.ReactNode;
+}
+
+const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+        setIsVisible(false);
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isVisible]);
+
+  const toggleTooltip = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsVisible(!isVisible);
+  };
+
+  return (
+    <div className="relative inline-flex items-center" ref={tooltipRef}>
+      <div className="flex items-center gap-1">
+        {children}
+        <HelpCircle 
+          className="w-4 h-4 cursor-pointer" 
+          style={{ color: '#000080' }} 
+          onClick={toggleTooltip}
+        />
+      </div>
+      {isVisible && (
+        <div className="tooltip-overlay">
+          <div className="tooltip-content">
+            <button 
+              className="absolute top-2 right-2 p-1 hover:bg-gray-200 rounded-full"
+              onClick={() => setIsVisible(false)}
+            >
+              <X className="w-4 h-4" style={{ color: '#000080' }} />
+            </button>
+            <div className="pr-8">
+              {content}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 function App() {
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
@@ -43,6 +103,16 @@ function App() {
       description: "Modern devices use adaptive power management to reduce overall energy use, highest power consumption up to 5 W."
     }
   ];
+
+  const tooltips = {
+    finalScore: "The final score is calculated by weighing multiple factors: component efficiency (30%), energy source (25%), reusability (25%), and waste management (20%). Scores range from 0-100.",
+    componentEfficiency: "Measures how efficiently components use energy compared to industry standards. Higher efficiency results in better scores.",
+    energySource: "Evaluates the environmental impact of the power source used. Renewable energy sources score higher.",
+    reusability: "Assesses how easily components can be reused or repurposed at end-of-life. Longer lifespans and modular designs score better.",
+    waste: "Measures the environmental impact of component disposal and any hazardous materials used.",
+    consumption: "Daily energy consumption in kilowatt-hours (kWh). Lower consumption indicates better energy efficiency.",
+    lifespan: "Expected operational lifetime in years. Longer lifespans generally indicate better sustainability.",
+  };
 
   useEffect(() => {
     const savedHistory = localStorage.getItem('evaluationHistory');
@@ -161,20 +231,32 @@ function App() {
               value={component.type}
               onChange={(e) => handleComponentChange(index, 'type', e.target.value)}
             />
-            <label>Consumption (kWh/day):</label>
-            <input
-              type="number"
-              step="0.5"
-              value={component.consumption}
-              onChange={(e) => handleComponentChange(index, 'consumption', parseFloat(e.target.value))}
-            />
-            <label>Lifespan (years):</label>
-            <input
-              type="number"
-              step="1"
-              value={component.lifespan}
-              onChange={(e) => handleComponentChange(index, 'lifespan', parseFloat(e.target.value))}
-            />
+            <div className="flex items-center gap-2">
+              <Tooltip content={tooltips.consumption}>
+                <div>
+                  <label>Consumption (kWh/day):</label>
+                  <input
+                    type="number"
+                    step="0.5"
+                    value={component.consumption}
+                    onChange={(e) => handleComponentChange(index, 'consumption', parseFloat(e.target.value))}
+                  />
+                </div>
+              </Tooltip>
+            </div>
+            <div className="flex items-center gap-2">
+              <Tooltip content={tooltips.lifespan}>
+                <div>
+                  <label>Lifespan (years):</label>
+                  <input
+                    type="number"
+                    step="1"
+                    value={component.lifespan}
+                    onChange={(e) => handleComponentChange(index, 'lifespan', parseFloat(e.target.value))}
+                  />
+                </div>
+              </Tooltip>
+            </div>
           </div>
         ))}
         <button type="button" onClick={addComponent}>Add Component</button>
@@ -184,13 +266,23 @@ function App() {
       {results && (
         <div className="results">
           <h2>Results</h2>
-          <p>Final Score: {results.final_score}</p>
+          <Tooltip content={tooltips.finalScore}>
+            <p>Final Score: {results.final_score}</p>
+          </Tooltip>
           <p>Classification: {results.classification}</p>
           <h3>Detailed Scores:</h3>
-          <p>Component Efficiency: {results.detailed_scores['component_efficiency']}</p>
-          <p>Energy Source: {results.detailed_scores['energy_source']}</p>
-          <p>Reusability: {results.detailed_scores['reusability']}</p>
-          <p>Waste: {results.detailed_scores['waste']}</p>
+          <Tooltip content={tooltips.componentEfficiency}>
+            <p>Component Efficiency: {results.detailed_scores['component_efficiency']}</p>
+          </Tooltip>
+          <Tooltip content={tooltips.energySource}>
+            <p>Energy Source: {results.detailed_scores['energy_source']}</p>
+          </Tooltip>
+          <Tooltip content={tooltips.reusability}>
+            <p>Reusability: {results.detailed_scores['reusability']}</p>
+          </Tooltip>
+          <Tooltip content={tooltips.waste}>
+            <p>Waste: {results.detailed_scores['waste']}</p>
+          </Tooltip>
         </div>
       )}
     </div>
