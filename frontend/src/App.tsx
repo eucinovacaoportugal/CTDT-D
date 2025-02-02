@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { HelpCircle, X } from 'lucide-react';
+import { AuthProvider, useAuth } from './AuthContext';
+import { AuthPage } from './AuthPage';
 import './App.css';
 
 interface ComponentData {
@@ -74,7 +76,8 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
   );
 };
 
-function App() {
+function MainContent() {
+  const { user, logout } = useAuth();
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
   const [history, setHistory] = useState<EvaluationResults[]>([]);
@@ -180,7 +183,11 @@ function App() {
           </div>
           <h1>Ecological Evaluator</h1>
         </div>
-        <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
+        <div className="header-actions">
+          <span className="user-info">Welcome, {user?.name}</span>
+          <button className="logout-btn" onClick={logout}>Logout</button>
+          <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
+        </div>
       </header>
 
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
@@ -287,6 +294,24 @@ function App() {
       )}
     </div>
   );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+
+function AppContent() {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <AuthPage />;
+  }
+
+  return <MainContent />;
 }
 
 export default App;
