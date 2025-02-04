@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { HelpCircle, X } from 'lucide-react';
-import { AuthProvider, useAuth } from './AuthContext';
-import { AuthPage } from './AuthPage';
+// import { AuthProvider, useAuth } from './AuthContext';
+// import { AuthPage } from './AuthPage';
 import './App.css';
 
 interface ComponentData {
@@ -60,13 +60,12 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
       {isVisible && (
         <div className="tooltip-overlay">
           <div className="tooltip-content">
-            <button 
-              className="absolute top-2 right-2 p-1 hover:bg-gray-200 rounded-full"
+            <X 
+              className="absolute top-1 left-1 w-4 h-4 cursor-pointer" 
+              style={{ color: '#000080' }} 
               onClick={() => setIsVisible(false)}
-            >
-              <X className="w-4 h-4" style={{ color: '#000080' }} />
-            </button>
-            <div className="pr-8">
+            />
+            <div className="ml-5 mt-2">
               {content}
             </div>
           </div>
@@ -77,7 +76,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
 };
 
 function MainContent() {
-  const { user, logout } = useAuth();
+  // const { user, logout } = useAuth();
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
   const [history, setHistory] = useState<EvaluationResults[]>([]);
@@ -86,35 +85,55 @@ function MainContent() {
 
   const componentDetails = [
     {
-      type: "Wearable Sensors",
-      description: "Typically low-power devices using microcontrollers and specialized energy-efficient sensors, advanced designs use Bluetooth Low Energy to minimize power drain."
+      type: "RoHS (Restriction of Hazardous Substances Directive) - 2011/65/EU",
+      description: "Specifies restrictions on the use of specific hazardous materials found in electrical and electronic products."
     },
     {
-      type: "3D Motion Capture Systems",
-      description: "Higher energy consumption, professional systems use specialized GPUs and computers with high power requirements."
+      type: "WEEE (Waste Electrical and Electronic Equipment Directive) - 2012/19/EU",
+      description: "Sets collection, recycling, and recovery targets for electrical goods and is a key piece of legislation that governs the disposal of electronic waste."
     },
     {
-      type: "Haptic Feedback Devices",
-      description: "Energy consumption varies by complexity, battery-powered versions optimize energy efficiency through pulse-width modulation."
+      type: "Energy Star Certification",
+      description: "A widely recognized standard that signifies energy efficiency in various products including office equipment, heating and cooling systems, and electronics."
     },
     {
-      type: "Portable Ultrasound Machines",
-      description: "Battery-powered models last 1-2 hours per charge, components like transducers and signal processors contribute to energy consumption."
+      type: "EPEAT (Electronic Product Environmental Assessment Tool)",
+      description: "A global rating system for greener electronics, covering a broad range of criteria including energy consumption and material selection."
     },
     {
-      type: "Wireless Communication Devices",
-      description: "Modern devices use adaptive power management to reduce overall energy use, highest power consumption up to 5 W."
+      type: "REACH (Registration, Evaluation, Authorisation, and Restriction of Chemicals) - EC 1907/2006",
+      description: "Aims to improve the protection of human health and the environment through the better and earlier identification of the intrinsic properties of chemical substances."
+    },
+    {
+      type: "Eco-Management and Audit Scheme (EMAS)",
+      description: "Voluntary EU initiative designed to improve companies’ environmental performance. Its logo is awarded to companies and other organizations which meet high environmental standards."
+    },
+    {
+      type: "ISO 14001",
+      description: "Part of the ISO 14000 family of standards on environmental management, this helps organizations improve their environmental performance through more efficient use of resources and reduction of waste."
+    },
+    {
+      type: "EU Eco-label",
+      description: "A label of environmental excellence that is awarded to products and services meeting high environmental standards throughout their life-cycle: from raw material extraction, to production, distribution, and disposal."
+    },
+    {
+      type: "The Blue Angel",
+      description: "The German certification for products and services that have environmentally friendly aspects. It is recognized across Europe and globally."
+    },
+    {
+      type: "TCO Certified",
+      description: "International sustainability certification for IT products, considering not only energy efficiency and reductions in hazardous materials but also the corporate social responsibility (CSR) performance of the product manufacturers."
     }
   ];
 
   const tooltips = {
-    finalScore: "The final score is calculated by weighing multiple factors: component efficiency (30%), energy source (25%), reusability (25%), and waste management (20%). Scores range from 0-100.",
-    componentEfficiency: "Measures how efficiently components use energy compared to industry standards. Higher efficiency results in better scores.",
-    energySource: "Evaluates the environmental impact of the power source used. Renewable energy sources score higher.",
-    reusability: "Assesses how easily components can be reused or repurposed at end-of-life. Longer lifespans and modular designs score better.",
-    waste: "Measures the environmental impact of component disposal and any hazardous materials used.",
-    consumption: "Daily energy consumption in kilowatt-hours (kWh). Lower consumption indicates better energy efficiency.",
-    lifespan: "Expected operational lifetime in years. Longer lifespans generally indicate better sustainability.",
+    finalScore: "The algorithm calculates the final score using weighted components: Component Efficiency (20%), Energy Source (25%), Reusability (20%), and Waste Management (20%). Scores range from 0-100, with ≥75 classified as 'Ecologic', ≥50 as 'Moderate', and <50 as 'Not ecologic'.",
+    componentEfficiency: "Component efficiency is calculated by summing the energy consumption (kWh/day) of all components and normalizing it per component. The score starts at 100 and decreases based on average consumption, ensuring higher efficiency results in better scores.",
+    energySource: "Energy source score directly reflects the percentage of renewable energy used (0-100%). This considers your local energy grid's renewable energy mix, with higher renewable percentages resulting in better scores.",
+    reusability: "Reusability is a binary score: 100 points if the components are reusable, 0 if not. This encourages designs that consider end-of-life component recovery and reuse in other applications.",
+    waste: "Waste score starts at 100 and decreases by 10 points per kg of waste generated. The algorithm caps the minimum score at 0 and the maximum at 100, encouraging minimal waste production.",
+    consumption: "Enter the daily energy consumption in kilowatt-hours (kWh/day). This value directly impacts the component efficiency score - lower consumption leads to higher scores in the final evaluation.",
+    lifespan: "Component lifespan in years affects the overall sustainability assessment. Longer lifespans typically indicate better sustainability as they reduce the need for frequent replacements.",
   };
 
   useEffect(() => {
@@ -184,8 +203,8 @@ function MainContent() {
           <h1>Ecological Evaluator</h1>
         </div>
         <div className="header-actions">
-          <span className="user-info">Welcome, {user?.name}</span>
-          <button className="logout-btn" onClick={logout}>Logout</button>
+          {/* <span className="user-info">Welcome, {user?.name}</span>
+          <button className="logout-btn" onClick={logout}>Logout</button> */}
           <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
         </div>
       </header>
@@ -206,7 +225,7 @@ function MainContent() {
         <div className="popup-overlay">
           <div className="popup-content">
             <div className="popup-header">
-              <h2>Component Overview</h2>
+              <h2>European standards considered in the algorithm</h2>
               <button className="close-btn" onClick={togglePopup}>✕</button>
             </div>
             {componentDetails.map((detail, index) => (
@@ -218,7 +237,6 @@ function MainContent() {
           </div>
         </div>
       )}
-
       <form>
         <h2>Components</h2>
         {components.map((component, index) => (
@@ -238,9 +256,8 @@ function MainContent() {
               value={component.type}
               onChange={(e) => handleComponentChange(index, 'type', e.target.value)}
             />
-            <div className="flex items-center gap-2">
-              <Tooltip content={tooltips.consumption}>
-                <div>
+            <div className="consumption-lifespan">
+                <Tooltip content={tooltips.consumption}>
                   <label>Consumption (kWh/day):</label>
                   <input
                     type="number"
@@ -248,12 +265,9 @@ function MainContent() {
                     value={component.consumption}
                     onChange={(e) => handleComponentChange(index, 'consumption', parseFloat(e.target.value))}
                   />
-                </div>
-              </Tooltip>
-            </div>
-            <div className="flex items-center gap-2">
-              <Tooltip content={tooltips.lifespan}>
-                <div>
+                </Tooltip>
+
+                <Tooltip content={tooltips.lifespan}>
                   <label>Lifespan (years):</label>
                   <input
                     type="number"
@@ -261,8 +275,7 @@ function MainContent() {
                     value={component.lifespan}
                     onChange={(e) => handleComponentChange(index, 'lifespan', parseFloat(e.target.value))}
                   />
-                </div>
-              </Tooltip>
+                </Tooltip>
             </div>
           </div>
         ))}
@@ -273,45 +286,72 @@ function MainContent() {
       {results && (
         <div className="results">
           <h2>Results</h2>
-          <Tooltip content={tooltips.finalScore}>
-            <p>Final Score: {results.final_score}</p>
-          </Tooltip>
-          <p>Classification: {results.classification}</p>
+          <div className="final-score-classification">
+            <div className="score-item">
+              <Tooltip content={tooltips.finalScore}>
+                <label>Final Score:</label>
+                <p>{results.final_score}</p>
+              </Tooltip>
+            </div>
+            <div className="score-item">
+              <label>Classification:</label>
+              <p>{results.classification}</p>
+            </div>
+          </div>
           <h3>Detailed Scores:</h3>
-          <Tooltip content={tooltips.componentEfficiency}>
-            <p>Component Efficiency: {results.detailed_scores['component_efficiency']}</p>
-          </Tooltip>
-          <Tooltip content={tooltips.energySource}>
-            <p>Energy Source: {results.detailed_scores['energy_source']}</p>
-          </Tooltip>
-          <Tooltip content={tooltips.reusability}>
-            <p>Reusability: {results.detailed_scores['reusability']}</p>
-          </Tooltip>
-          <Tooltip content={tooltips.waste}>
-            <p>Waste: {results.detailed_scores['waste']}</p>
-          </Tooltip>
+          <div className="detailed-scores">
+            <div className="score-item">
+              <Tooltip content={tooltips.componentEfficiency}>
+                <label>Component Efficiency:</label>
+                <p>{results.detailed_scores['component_efficiency']}</p>
+              </Tooltip>
+            </div>
+            <div className="score-item">
+              <Tooltip content={tooltips.energySource}>
+                <label>Energy Source:</label>
+                <p>{results.detailed_scores['energy_source']}</p>
+              </Tooltip>
+            </div>
+            <div className="score-item">
+              <Tooltip content={tooltips.reusability}>
+                <label>Reusability:</label>
+                <p>{results.detailed_scores['reusability']}</p>
+              </Tooltip>
+            </div>
+            <div className="score-item">
+              <Tooltip content={tooltips.waste}>
+                <label>Waste:</label>
+                <p>{results.detailed_scores['waste']}</p>
+              </Tooltip>
+            </div>
+          </div>
         </div>
       )}
+
+      <footer>
+        <img src="/eulogo.png" alt="EU Logo" className="eu-logo" />
+      </footer>
     </div>
   );
 }
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    // <AuthProvider>
+    //   <AppContent />
+    // </AuthProvider>
+    <MainContent />
   );
 }
 
-function AppContent() {
-  const { isAuthenticated } = useAuth();
+// function AppContent() {
+//   const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated) {
-    return <AuthPage />;
-  }
+//   if (!isAuthenticated) {
+//     return <AuthPage />;
+//   }
 
-  return <MainContent />;
-}
+//   return <MainContent />;
+// }
 
 export default App;

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect} from 'react';
 import { User, AuthState } from './types';
 
 interface AuthContextType extends AuthState {
@@ -16,44 +16,104 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     const login = async (email: string, password: string) => {
-        const response = await fetch('https://ctdt-d.onrender.com/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
-        const data = await response.json();
-        localStorage.setItem('token', data.access_token);
-        return data.user;
+        try {
+            const response = await fetch('https://ctdt-d.onrender.com/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const responseBody = await response.json();
+
+            if (!response.ok) {
+                throw new Error(responseBody.detail || 'Login failed');
+            }
+
+            localStorage.setItem('token', responseBody.access_token);
+            setAuthState({
+                user: {
+                    id: responseBody.user.id,
+                    email: responseBody.user.email,
+                    name: responseBody.user.name
+                },
+                isAuthenticated: true
+            });
+
+        } catch (error) {
+            console.error('Login error:', error);
+            throw error;
+        }
     };
 
     const register = async (email: string, password: string, name: string) => {
-    try {
-        const response = await fetch('https://ctdt-d.onrender.com/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, name }),
-        });
+        try {
+            const response = await fetch('https://ctdt-d.onrender.com/register', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ email, password, name }),
+            });
 
-        if (!response.ok) {
-            throw new Error('Registration failed');
+            const responseBody = await response.json();
+
+            if (!response.ok) {
+                throw new Error(responseBody.detail || 'Registration failed');
+            }
+
+            await login(email, password);
+
+        } catch (error) {
+            console.error('Registration error:', error);
+            throw error;
         }
-
-        const userData = await response.json();
-        setAuthState({ user: userData, isAuthenticated: true });
-    } catch (error) {
-        console.error('Registration error:', error);
-        throw error;
-    }
     };
 
+    const verifyToken = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setAuthState({ user: null, isAuthenticated: false });
+            return;
+        }
+        try {
+            const response = await fetch('https://ctdt-d.onrender.com/me', {
+                method: 'GET',
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Token verification failed');
+            }
+
+            const userData = await response.json();
+            setAuthState({
+                user: userData,
+                isAuthenticated: true
+            });
+        } catch (error) {
+            console.error('Token verification error:', error);
+            localStorage.removeItem('token');
+            setAuthState({ user: null, isAuthenticated: false });
+        }
+    };
+    
+    useEffect(() => {
+        verifyToken();
+    }, []);
+
     const logout = () => {
-    setAuthState({ user: null, isAuthenticated: false });
+        localStorage.removeItem('token');
+        setAuthState({ user: null, isAuthenticated: false });
     };
 
     return (
-    <AuthContext.Provider value={{ ...authState, login, register, logout }}>
-        {children}
-    </AuthContext.Provider>
+        <AuthContext.Provider value={{ ...authState, login, register, logout }}>
+            {children}
+        </AuthContext.Provider>
     );
 };
 
