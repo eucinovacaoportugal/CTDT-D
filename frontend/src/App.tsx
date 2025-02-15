@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { HelpCircle, X } from 'lucide-react';
 // import { AuthProvider, useAuth } from './AuthContext';
 // import { AuthPage } from './AuthPage';
+import AuthModal from './AuthModal';
 import './App.css';
 
 interface ComponentData {
@@ -203,8 +204,7 @@ function MainContent() {
           <h1>Ecological Evaluator</h1>
         </div>
         <div className="header-actions">
-          {/* <span className="user-info">Welcome, {user?.name}</span>
-          <button className="logout-btn" onClick={logout}>Logout</button> */}
+          <AuthModal />
           <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
         </div>
       </header>
