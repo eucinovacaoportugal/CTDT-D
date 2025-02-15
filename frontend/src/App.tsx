@@ -86,44 +86,8 @@ function MainContent() {
 
   const componentDetails = [
     {
-      type: "RoHS (Restriction of Hazardous Substances Directive) - 2011/65/EU",
-      description: "Specifies restrictions on the use of specific hazardous materials found in electrical and electronic products."
-    },
-    {
-      type: "WEEE (Waste Electrical and Electronic Equipment Directive) - 2012/19/EU",
-      description: "Sets collection, recycling, and recovery targets for electrical goods and is a key piece of legislation that governs the disposal of electronic waste."
-    },
-    {
-      type: "Energy Star Certification",
-      description: "A widely recognized standard that signifies energy efficiency in various products including office equipment, heating and cooling systems, and electronics."
-    },
-    {
-      type: "EPEAT (Electronic Product Environmental Assessment Tool)",
-      description: "A global rating system for greener electronics, covering a broad range of criteria including energy consumption and material selection."
-    },
-    {
-      type: "REACH (Registration, Evaluation, Authorisation, and Restriction of Chemicals) - EC 1907/2006",
-      description: "Aims to improve the protection of human health and the environment through the better and earlier identification of the intrinsic properties of chemical substances."
-    },
-    {
-      type: "Eco-Management and Audit Scheme (EMAS)",
-      description: "Voluntary EU initiative designed to improve companies’ environmental performance. Its logo is awarded to companies and other organizations which meet high environmental standards."
-    },
-    {
-      type: "ISO 14001",
-      description: "Part of the ISO 14000 family of standards on environmental management, this helps organizations improve their environmental performance through more efficient use of resources and reduction of waste."
-    },
-    {
-      type: "EU Eco-label",
-      description: "A label of environmental excellence that is awarded to products and services meeting high environmental standards throughout their life-cycle: from raw material extraction, to production, distribution, and disposal."
-    },
-    {
-      type: "The Blue Angel",
-      description: "The German certification for products and services that have environmentally friendly aspects. It is recognized across Europe and globally."
-    },
-    {
-      type: "TCO Certified",
-      description: "International sustainability certification for IT products, considering not only energy efficiency and reductions in hazardous materials but also the corporate social responsibility (CSR) performance of the product manufacturers."
+      type: "Circular Transformation in Digital Twin Deployment Algorithm",
+      description: "V0.1 prototype"
     }
   ];
 
@@ -195,7 +159,6 @@ function MainContent() {
   return (
     <div className="App">
       <header>
-        <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
         <div className="header-content">
           <div className="header-logos">
             <img src="/up2circ.png" alt="Up2Circ Logo" className="up2circ-logo" />
@@ -225,7 +188,6 @@ function MainContent() {
         <div className="popup-overlay">
           <div className="popup-content">
             <div className="popup-header">
-              <h2>European standards considered in the algorithm</h2>
               <button className="close-btn" onClick={togglePopup}>✕</button>
             </div>
             {componentDetails.map((detail, index) => (
