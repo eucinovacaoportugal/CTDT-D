@@ -231,46 +231,36 @@ function MainContent() {
 
       {results && (
         <div className="results">
-          <h2>Results</h2>
-          <div className="final-score-classification">
-            <div className="score-item">
-              <Tooltip content={tooltips.finalScore}>
-                <label>Final Score:</label>
-                <p>{results.final_score}</p>
-              </Tooltip>
-            </div>
-            <div className="score-item">
-              <label>Classification:</label>
-              <p>{results.classification}</p>
-            </div>
-          </div>
-          <h3>Detailed Scores:</h3>
-          <div className="detailed-scores">
-            <div className="score-item">
-              <Tooltip content={tooltips.componentEfficiency}>
-                <label>Component Efficiency:</label>
-                <p>{results.detailed_scores['component_efficiency']}</p>
-              </Tooltip>
-            </div>
-            <div className="score-item">
-              <Tooltip content={tooltips.energySource}>
-                <label>Energy Source:</label>
-                <p>{results.detailed_scores['energy_source']}</p>
-              </Tooltip>
-            </div>
-            <div className="score-item">
-              <Tooltip content={tooltips.reusability}>
-                <label>Reusability:</label>
-                <p>{results.detailed_scores['reusability']}</p>
-              </Tooltip>
-            </div>
-            <div className="score-item">
-              <Tooltip content={tooltips.waste}>
-                <label>Waste:</label>
-                <p>{results.detailed_scores['waste']}</p>
-              </Tooltip>
-            </div>
-          </div>
+          <h2>Evaluation Results</h2>
+          <p>Your system has been evaluated based on several sustainability metrics.</p>
+
+          <h3>Overall Score: {results.final_score}</h3>
+          <p>This score represents the overall sustainability of your digital twin. Higher scores indicate a more efficient and environmentally friendly setup.</p>
+
+          <h3>Classification: {results.classification}</h3>
+          <p>The classification helps understand how well your system aligns with sustainability goals:</p>
+          <ul>
+            <li><strong>Ecologic (75+):</strong> Your system is highly sustainable and optimized for minimal environmental impact.</li>
+            <li><strong>Moderate (50-74):</strong> There are areas for improvement, particularly in efficiency, reusability, or energy source.</li>
+            <li><strong>Not Ecologic (&lt;50):</strong> Significant optimizations are required to enhance sustainability.</li>
+          </ul>
+
+          <h3>Detailed Breakdown</h3>
+          <ul>
+            <li><strong>Component Efficiency:</strong> {results.detailed_scores['component_efficiency']} - A high score indicates efficient energy usage and minimal waste.</li>
+            <li><strong>Energy Source:</strong> {results.detailed_scores['energy_source']} - This reflects the proportion of renewable energy used. Consider increasing renewable energy sources to improve sustainability.</li>
+            <li><strong>Reusability:</strong> {results.detailed_scores['reusability']} - A higher score means more components are reusable, reducing waste.</li>
+            <li><strong>Waste Management:</strong> {results.detailed_scores['waste']} - Lower scores indicate high waste production; improving recycling strategies can enhance sustainability.</li>
+          </ul>
+
+          <h3>Suggestions for Improvement</h3>
+          <p>Based on your scores, consider the following recommendations:</p>
+          <ul>
+            <li>Optimize component efficiency by reducing unnecessary energy consumption.</li>
+            <li>Increase reliance on renewable energy sources where possible.</li>
+            <li>Design components for reusability to minimize electronic waste.</li>
+            <li>Improve waste management strategies by incorporating recycling and sustainable materials.</li>
+          </ul>
         </div>
       )}
 
