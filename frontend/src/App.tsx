@@ -77,14 +77,6 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
 function MainContent() {
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
-  const [popupOpen] = useState(false);
-
-  // const componentDetails = [
-  //   {
-  //     type: "Algorithm",
-  //     description: "This is the V0.1 prototype of the Digital Twin Deployment Algorithm."
-  //   }
-  // ];
 
   const tooltips = {
     finalScore: "The algorithm calculates the final score using weighted components: Component Efficiency (20%), Energy Source (25%), Reusability (20%), and Waste Management (20%). Scores range from 0-100, with ≥75 classified as 'Ecologic', ≥50 as 'Moderate', and <50 as 'Not ecologic'.",
@@ -133,10 +125,6 @@ function MainContent() {
     }
   };
 
-  // const togglePopup = () => {
-  //   setPopupOpen(!popupOpen);
-  // };
-
   return (
     <div className="App">
       <header>
@@ -149,30 +137,9 @@ function MainContent() {
         </div>
         <div className="header-actions">
           <AuthModal />
-          {/* <button 
-            className="info-btn" 
-            onClick={togglePopup} 
-            style={{ fontSize: '1rem', fontWeight: 'bold'}}>
-            ⓘ
-          </button>         */}
         </div>
       </header>
 
-      {popupOpen && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            {/* <div className="popup-header">
-              <button className="close-btn" onClick={togglePopup}>✕</button>
-            </div> */}
-            {/* {componentDetails.map((detail, index) => (
-              <div key={index}>
-                <h3>{detail.type}</h3>
-                <p>{detail.description}</p>
-              </div>
-            ))} */}
-          </div>
-        </div>
-      )}
       <form>
         <h2>Components</h2>
         {components.map((component, index) => (
