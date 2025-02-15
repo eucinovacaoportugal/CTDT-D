@@ -20,7 +20,7 @@ const AuthModal = () => {
     return (
         <div>
             <button className="auth-button" onClick={() => setIsOpen(true)}>
-                Login Signup
+                <img src="/user.png" className="user" />
             </button>
 
             {isOpen && (

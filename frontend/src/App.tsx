@@ -79,12 +79,12 @@ function MainContent() {
   const [results, setResults] = useState<EvaluationResults | null>(null);
   const [popupOpen, setPopupOpen] = useState(false);
 
-  const componentDetails = [
-    {
-      type: "Algorithm",
-      description: "This is the V0.1 prototype of the Digital Twin Deployment Algorithm."
-    }
-  ];
+  // const componentDetails = [
+  //   {
+  //     type: "Algorithm",
+  //     description: "This is the V0.1 prototype of the Digital Twin Deployment Algorithm."
+  //   }
+  // ];
 
   const tooltips = {
     finalScore: "The algorithm calculates the final score using weighted components: Component Efficiency (20%), Energy Source (25%), Reusability (20%), and Waste Management (20%). Scores range from 0-100, with ≥75 classified as 'Ecologic', ≥50 as 'Moderate', and <50 as 'Not ecologic'.",
@@ -133,9 +133,9 @@ function MainContent() {
     }
   };
 
-  const togglePopup = () => {
-    setPopupOpen(!popupOpen);
-  };
+  // const togglePopup = () => {
+  //   setPopupOpen(!popupOpen);
+  // };
 
   return (
     <div className="App">
@@ -149,27 +149,27 @@ function MainContent() {
         </div>
         <div className="header-actions">
           <AuthModal />
-          <button 
+          {/* <button 
             className="info-btn" 
             onClick={togglePopup} 
             style={{ fontSize: '1rem', fontWeight: 'bold'}}>
             ⓘ
-          </button>        
+          </button>         */}
         </div>
       </header>
 
       {popupOpen && (
         <div className="popup-overlay">
           <div className="popup-content">
-            <div className="popup-header">
+            {/* <div className="popup-header">
               <button className="close-btn" onClick={togglePopup}>✕</button>
-            </div>
-            {componentDetails.map((detail, index) => (
+            </div> */}
+            {/* {componentDetails.map((detail, index) => (
               <div key={index}>
                 <h3>{detail.type}</h3>
                 <p>{detail.description}</p>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       )}
@@ -254,8 +254,11 @@ function MainContent() {
         </div>
       )}
 
-      <footer>
-        <img src="/eulogo.png" alt="EU Logo" className="eu-logo" />
+      <footer className="footer">
+        <div className="footer-content">
+          <img src="/eulogo.png" alt="EU Logo" className="eu-logo" />
+          <p>This is the V0.1 prototype of the Digital Twin Deployment Algorithm.</p>
+        </div>
       </footer>
     </div>
   );
