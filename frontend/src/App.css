@@ -247,7 +247,7 @@ button:focus {
   padding: 2rem;
   border-radius: 20px;
   width: 50%;
-  max-width: 900px;
+  max-width: 500px;
   max-height: 80vh;
   overflow-y: auto;
   position: relative;
@@ -284,8 +284,8 @@ button:focus {
 
 .close-btn {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.5rem;
+  right: 0.01rem;
   background: transparent;
   color: #000080;
   border: none;
@@ -309,7 +309,7 @@ button:focus {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-right: 280px;
+  margin-right: 100px;
 }
 
 .up2circ-logo {

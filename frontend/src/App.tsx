@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { HelpCircle, X } from 'lucide-react';
-// import { AuthProvider, useAuth } from './AuthContext';
-// import { AuthPage } from './AuthPage';
 import AuthModal from './AuthModal';
 import './App.css';
 
@@ -77,7 +75,6 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
 };
 
 function MainContent() {
-  // const { user, logout } = useAuth();
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
   const [history, setHistory] = useState<EvaluationResults[]>([]);
@@ -85,8 +82,8 @@ function MainContent() {
 
   const componentDetails = [
     {
-      type: "Circular Transformation in Digital Twin Deployment Algorithm",
-      description: "V0.1 prototype"
+      type: "Algorithm",
+      description: "This is the V0.1 prototype of the Digital Twin Deployment Algorithm."
     }
   ];
 
@@ -158,7 +155,7 @@ function MainContent() {
             <img src="/up2circ.png" alt="Up2Circ Logo" className="up2circ-logo" />
             <img src="/ctdt-c.png" alt="CTDT-C Logo" className="ctdt-logo" />
           </div>
-          <h1>Ecological Evaluator</h1>
+          <h1>Circular Transformation in Digital Twin Deployment</h1>
         </div>
         <div className="header-actions">
           <AuthModal />
@@ -286,21 +283,8 @@ function MainContent() {
 
 function App() {
   return (
-    // <AuthProvider>
-    //   <AppContent />
-    // </AuthProvider>
     <MainContent />
   );
 }
-
-// function AppContent() {
-//   const { isAuthenticated } = useAuth();
-
-//   if (!isAuthenticated) {
-//     return <AuthPage />;
-//   }
-
-//   return <MainContent />;
-// }
 
 export default App;
