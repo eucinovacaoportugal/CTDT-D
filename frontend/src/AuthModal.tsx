@@ -32,7 +32,11 @@ const AuthModal = () => {
                         exit={{ opacity: 0, scale: 0.9 }}
                         onClick={(e) => e.stopPropagation()}
                     >
+
+                    <button className="close-button" onClick={() => setIsOpen(false)}>✕</button>
+                    
                     <h2>{isSignup ? "Create an Account" : "Login"}</h2>
+                    
                     <form onSubmit={handleSubmit}>
                         <input
                             type="email"
@@ -51,17 +55,13 @@ const AuthModal = () => {
                             required
                         />
                         <button type="submit" className="submit-button">
-                            {isSignup ? "Sign Up" : "Login"}
+                            {isSignup ? "Submit" : "Submit"}
                         </button>
                     </form>
 
                     <p className="toggle-text" onClick={toggleAuthMode}>
                         {isSignup ? "Already have an account? Login" : "No account? Sign up"}
                     </p>
-
-                    <button className="close-button" onClick={() => setIsOpen(false)}>
-                        Close
-                    </button>
                     </motion.div>
                 </div>
             )}

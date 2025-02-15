@@ -27,6 +27,7 @@ header {
   max-width: 1500px; 
   box-sizing: border-box;
   border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 10;
@@ -525,8 +526,9 @@ button {
 }
 
 .modal-content {
-  background: white;
-  width: 500px; /* Adjust to make it larger */
+  position: relative;
+  background: #E9F1FA;;
+  width: 500px; 
   max-width: 90%;
   padding: 2rem;
   border-radius: 10px;
@@ -543,6 +545,7 @@ button {
 }
 
 .modal-content form {
+  background: #d7e3f7;
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -558,18 +561,13 @@ button {
 
 .submit-button {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #007bff;
-  color: white;
+  padding: 1px;
+  margin-top: 20px;
+  color: #000080;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-}
-
-.submit-button:hover {
-  background-color: #0056b3;
 }
 
 .toggle-text {
@@ -579,10 +577,13 @@ button {
 }
 
 .close-button {
-  margin-top: 15px;
+  position: absolute;
+  top: 1rem; 
+  right: 1rem;
+  margin-top: 1px;
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: 15px;
   cursor: pointer;
   color: #000080;
 }
