@@ -78,7 +78,7 @@ form {
   margin: 1rem auto;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 950px; 
+  max-width: 1250px; 
   width: 100%;  
 }
 
@@ -167,7 +167,7 @@ button:focus {
   background: #E9F1FA;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 950px; 
+  max-width: 1250px; 
   width: 100%;  
 }
 
