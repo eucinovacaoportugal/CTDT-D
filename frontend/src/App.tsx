@@ -146,11 +146,6 @@ function MainContent() {
     }
   };
 
-  const clearHistory = () => {
-    setHistory([]);
-    localStorage.removeItem('evaluationHistory');
-  };
-
   const togglePopup = () => {
     setPopupOpen(!popupOpen);
   };
@@ -167,7 +162,12 @@ function MainContent() {
         </div>
         <div className="header-actions">
           <AuthModal />
-          <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
+          <button 
+            className="info-btn" 
+            onClick={togglePopup} 
+            style={{ fontSize: '1rem', fontWeight: 'bold'}}>
+            ⓘ
+          </button>        
         </div>
       </header>
 
