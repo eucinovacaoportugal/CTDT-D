@@ -77,7 +77,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
 function MainContent() {
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [popupOpen] = useState(false);
 
   // const componentDetails = [
   //   {
