@@ -81,7 +81,6 @@ function MainContent() {
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
   const [history, setHistory] = useState<EvaluationResults[]>([]);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
 
   const componentDetails = [
@@ -171,18 +170,6 @@ function MainContent() {
           <button className="info-btn" onClick={togglePopup} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ⓘ</button>
         </div>
       </header>
-
-      <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <h2>History</h2>
-        <ul>
-          {history.map((entry, index) => (
-            <li key={index}>
-              Score: {entry.final_score} - {entry.classification}
-            </li>
-          ))}
-        </ul>
-        <button onClick={clearHistory}>Clear History</button>
-      </div>
 
       {popupOpen && (
         <div className="popup-overlay">
