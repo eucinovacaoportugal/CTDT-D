@@ -231,7 +231,7 @@ function MainContent() {
 
       {results && (
         <div className="results">
-          <h2>Evaluation Results</h2>
+          <h2>Results</h2>
           <p>Your system has been evaluated based on several sustainability metrics.</p>
 
           <h3>Overall Score: {results.final_score}</h3>
