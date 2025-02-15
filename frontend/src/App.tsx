@@ -77,7 +77,6 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
 function MainContent() {
   const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
-  const [history, setHistory] = useState<EvaluationResults[]>([]);
   const [popupOpen, setPopupOpen] = useState(false);
 
   const componentDetails = [
@@ -96,13 +95,6 @@ function MainContent() {
     consumption: "Enter the daily energy consumption in kilowatt-hours (kWh/day). This value directly impacts the component efficiency score - lower consumption leads to higher scores in the final evaluation.",
     lifespan: "Component lifespan in years affects the overall sustainability assessment. Longer lifespans typically indicate better sustainability as they reduce the need for frequent replacements.",
   };
-
-  useEffect(() => {
-    const savedHistory = localStorage.getItem('evaluationHistory');
-    if (savedHistory) {
-      setHistory(JSON.parse(savedHistory));
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('evaluationHistory', JSON.stringify(history));
@@ -135,8 +127,6 @@ function MainContent() {
 
       const data: EvaluationResults = await response.json();
       setResults(data);
-      const updatedHistory = [...history, data];
-      setHistory(updatedHistory);
     } catch (error) {
       console.error('Error evaluating digital twin:', error);
       alert('Failed to evaluate digital twin. Please check the input and server connection.');
