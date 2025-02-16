@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { HelpCircle, X } from 'lucide-react';
+// import { HelpCircle, X } from 'lucide-react';
 import AuthModal from './AuthModal';
 import Dropdown from './Dropdown';
 import './App.css';
@@ -23,63 +23,63 @@ interface EvaluationResults {
   detailed_scores: Record<string, number>;
 }
 
-interface TooltipProps {
-  content: string;
-  children: React.ReactNode;
-}
+// interface TooltipProps {
+//   content: string;
+//   children: React.ReactNode;
+// }
 
-const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const tooltipRef = useRef<HTMLDivElement>(null);
+// const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
+//   const [isVisible, setIsVisible] = useState(false);
+//   const tooltipRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
-        setIsVisible(false);
-      }
-    };
+//   useEffect(() => {
+//     const handleClickOutside = (event: MouseEvent) => {
+//       if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+//         setIsVisible(false);
+//       }
+//     };
 
-    if (isVisible) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+//     if (isVisible) {
+//       document.addEventListener('mousedown', handleClickOutside);
+//     }
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isVisible]);
+//     return () => {
+//       document.removeEventListener('mousedown', handleClickOutside);
+//     };
+//   }, [isVisible]);
 
-  const toggleTooltip = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsVisible(!isVisible);
-  };
+//   const toggleTooltip = (e: React.MouseEvent) => {
+//     e.stopPropagation();
+//     setIsVisible(!isVisible);
+//   };
 
-  return (
-    <div className="relative inline-flex items-center" ref={tooltipRef}>
-      <div className="flex items-center gap-1">
-        {children}
-        <HelpCircle 
-          className="w-4 h-4 cursor-pointer" 
-          style={{ color: '#000080' }} 
-          onClick={toggleTooltip}
-        />
-      </div>
-      {isVisible && (
-        <div className="tooltip-overlay">
-          <div className="tooltip-content">
-            <X 
-              className="absolute top-1 right-1 w-4 h-4 cursor-pointer" 
-              style={{ color: '#000080' }} 
-              onClick={() => setIsVisible(false)}
-            />
-            <div className="ml-5 mt-2">
-              {content}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+//   return (
+//     <div className="relative inline-flex items-center" ref={tooltipRef}>
+//       <div className="flex items-center gap-1">
+//         {children}
+//         <HelpCircle 
+//           className="w-4 h-4 cursor-pointer" 
+//           style={{ color: '#000080' }} 
+//           onClick={toggleTooltip}
+//         />
+//       </div>
+//       {isVisible && (
+//         <div className="tooltip-overlay">
+//           <div className="tooltip-content">
+//             <X 
+//               className="absolute top-1 right-1 w-4 h-4 cursor-pointer" 
+//               style={{ color: '#000080' }} 
+//               onClick={() => setIsVisible(false)}
+//             />
+//             <div className="ml-5 mt-2">
+//               {content}
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
 function MainContent() {
   const [components, setComponents] = useState<ComponentData[]>([{
@@ -92,9 +92,9 @@ function MainContent() {
     lifecycleManagement: ''
   }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
-  const tooltips  = {
-    component: "To evaluate you system, describe it with values on the 'Description' field. Select the types of the values from your input, and click 'Evaluate'. To evaluate two systems at once, click 'Add System' and fill it with the same requirements.",
-  };
+  // const tooltips  = {
+  //   component: "To evaluate you system, describe it with values on the 'Description' field. Select the types of the values from your input, and click 'Evaluate'. To evaluate two systems at once, click 'Add System' and fill it with the same requirements.",
+  // };
 
   useEffect(() => {
     localStorage.setItem('evaluationHistory', JSON.stringify(history));
