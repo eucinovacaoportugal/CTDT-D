@@ -1,9 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { HelpCircle, X } from 'lucide-react';
 import AuthModal from './AuthModal';
+import Dropdown from './Dropdown';
 import './App.css';
 
 interface ComponentData {
+  carbonFootprint: string;
+  efficiency: string;
+  infrastructureResilience: string;
+  environmentalImpact: string;
+  resourceOptimization: string;
+  lifecycleManagement: string;
   name: string;
   type: string;
   consumption: number;
@@ -60,7 +67,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
         <div className="tooltip-overlay">
           <div className="tooltip-content">
             <X 
-              className="absolute top-1 left-1 w-4 h-4 cursor-pointer" 
+              className="absolute top-1 right-1 w-4 h-4 cursor-pointer" 
               style={{ color: '#000080' }} 
               onClick={() => setIsVisible(false)}
             />
@@ -75,17 +82,18 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
 };
 
 function MainContent() {
-  const [components, setComponents] = useState<ComponentData[]>([{ name: '', type: '', consumption: 0, lifespan: 0 }]);
+  const [components, setComponents] = useState<ComponentData[]>([{
+    name: '', type: '', consumption: 0, lifespan: 0,
+    carbonFootprint: '',
+    efficiency: '',
+    infrastructureResilience: '',
+    environmentalImpact: '',
+    resourceOptimization: '',
+    lifecycleManagement: ''
+  }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
-
-  const tooltips = {
-    finalScore: "The algorithm calculates the final score using weighted components: Component Efficiency (20%), Energy Source (25%), Reusability (20%), and Waste Management (20%). Scores range from 0-100, with ≥75 classified as 'Ecologic', ≥50 as 'Moderate', and <50 as 'Not ecologic'.",
-    componentEfficiency: "Component efficiency is calculated by summing the energy consumption (kWh/day) of all components and normalizing it per component. The score starts at 100 and decreases based on average consumption, ensuring higher efficiency results in better scores.",
-    energySource: "Energy source score directly reflects the percentage of renewable energy used (0-100%). This considers your local energy grid's renewable energy mix, with higher renewable percentages resulting in better scores.",
-    reusability: "Reusability is a binary score: 100 points if the components are reusable, 0 if not. This encourages designs that consider end-of-life component recovery and reuse in other applications.",
-    waste: "Waste score starts at 100 and decreases by 10 points per kg of waste generated. The algorithm caps the minimum score at 0 and the maximum at 100, encouraging minimal waste production.",
-    consumption: "Enter the daily energy consumption in kilowatt-hours (kWh/day). This value directly impacts the component efficiency score - lower consumption leads to higher scores in the final evaluation.",
-    lifespan: "Component lifespan in years affects the overall sustainability assessment. Longer lifespans typically indicate better sustainability as they reduce the need for frequent replacements.",
+  const tooltips  = {
+    component: "To evaluate you system, describe it with values on the 'Description' field. Select the types of the values from your input, and click 'Evaluate'. To evaluate two systems at once, click 'Add System' and fill it with the same requirements.",
   };
 
   useEffect(() => {
@@ -93,7 +101,15 @@ function MainContent() {
   }, [history]);
 
   const addComponent = () => {
-    setComponents([...components, { name: '', type: '', consumption: 0, lifespan: 0 }]);
+    setComponents([...components, {
+      name: '', type: '', consumption: 0, lifespan: 0,
+      carbonFootprint: '',
+      efficiency: '',
+      infrastructureResilience: '',
+      environmentalImpact: '',
+      resourceOptimization: '',
+      lifecycleManagement: ''
+    }]);
   };
 
   const handleComponentChange = (index: number, key: keyof ComponentData, value: string | number) => {
@@ -141,49 +157,61 @@ function MainContent() {
       </header>
 
       <form>
-        <h2>Components</h2>
         {components.map((component, index) => (
           <div key={index} className="component-group">
+            {/* <Tooltip content={tooltips.component} children={undefined}></Tooltip> */}
             <h3>#{index + 1}</h3>
-            <label>Name:</label>
-            <input
-              type="text"
-              placeholder="Name"
-              value={component.name}
-              onChange={(e) => handleComponentChange(index, 'name', e.target.value)}
-            />
-            <label>Type:</label>
-            <input
-              type="text"
-              placeholder="Type"
-              value={component.type}
-              onChange={(e) => handleComponentChange(index, 'type', e.target.value)}
-            />
+            <label>Description</label>
+            <input type="text" placeholder="..." value={component.name} onChange={(e) => handleComponentChange(index, 'name', e.target.value)} />
             <div className="consumption-lifespan">
-                <Tooltip content={tooltips.consumption}>
-                  <label>Consumption (kWh/day):</label>
-                  <input
-                    type="number"
-                    step="0.5"
-                    value={component.consumption}
-                    onChange={(e) => handleComponentChange(index, 'consumption', parseFloat(e.target.value))}
-                  />
-                </Tooltip>
+              <Dropdown
+                label="Energy Efficiency"
+                options={["Power Consumption", "Peak Power Usage", "Idle Power Usage", "Computation Time Distribution", "Cooling Energy Requirements", "Processing Efficiency", "Energy Storage Efficiency", "Power Factor", "Thermal Design Power"]}
+                value={component.efficiency}
+                onChange={(value) => handleComponentChange(index, 'efficiency', value)}
+              />
+              <Dropdown
+                label="Carbon Footprint"
+                options={["Direct CO2 Emissions", "Indirect CO2 Emissions", "Carbon Intensity", "Renewable Energy Percentage", "Carbon Offset Percentage", "Supply Chain Emissions", "E-waste Generation", "Water Usage"]}
+                value={component.carbonFootprint}
+                onChange={(value) => handleComponentChange(index, 'carbonFootprint', value)}
+              />
+            </div>
+            <div className="consumption-lifespan">
+              <Dropdown
+                label="Resource Optimization"
+                options={["Computing Resource Utilization", "Memory Usage Efficiency", "Storage Optimization Rate", "Network Bandwidth Efficiency", "Resource Scaling Accuracy", "Resource Recovery Time", "Resource Redundancy Level", "Hardware Utilization Rate"]}
+                value={component.resourceOptimization}
+                onChange={(value) => handleComponentChange(index, 'resourceOptimization', value)}
+              />
 
-                <Tooltip content={tooltips.lifespan}>
-                  <label>Lifespan (years):</label>
-                  <input
-                    type="number"
-                    step="1"
-                    value={component.lifespan}
-                    onChange={(e) => handleComponentChange(index, 'lifespan', parseFloat(e.target.value))}
-                  />
-                </Tooltip>
+              <Dropdown
+                label="Lifecycle Management"
+                options={["Data Compression Ratio", "Data Deduplication Rate", "Storage Efficiency", "Data Access Patterns", "Data Retention Optimization", "Update Frequency Efficiency", "Data Quality Score", "Archive Ratio"]}
+                value={component.lifecycleManagement}
+                onChange={(value) => handleComponentChange(index, 'lifecycleManagement', value)}
+              />
+            </div>
+            <div className="consumption-lifespan">
+              <Dropdown
+                label="Environmental Impact"
+                options={["Electronic Waste Generation", "Water Consumption", "Heat Generation", "Noise Pollution", "Material Recyclability", "Biodiversity Impact", "Land Use Efficiency", "Chemical Usage"]}
+                value={component.environmentalImpact}
+                onChange={(value) => handleComponentChange(index, 'environmentalImpact', value)}
+              />
+              <Dropdown
+                label="Infrastructure Resilience"
+                options={["System Reliability", "Fault Tolerance", "Recovery Time", "Maintenance Efficiency", "Upgrade Frequency", "Component Lifespan", "Redundancy Level", "Disaster Recovery Capability"]}
+                value={component.infrastructureResilience}
+                onChange={(value) => handleComponentChange(index, 'infrastructureResilience', value)}
+              />
             </div>
           </div>
         ))}
-        <button type="button" onClick={addComponent}>Add Component</button>
-        <button type="button" onClick={evaluateTwin}>Evaluate</button>
+        <div className="buttons">
+          <button className="buttonc" type="button" onClick={addComponent}>Add System</button>
+          <button type="button" onClick={evaluateTwin}>Evaluate</button>
+        </div>
       </form>
 
       {results && (

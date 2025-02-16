@@ -99,11 +99,21 @@ form {
 .consumption-lifespan {
   display: flex;
   justify-content: space-between;
-  gap: 2rem; /* Adjust spacing between them */
+  gap: 2rem; 
 }
 
 .consumption-lifespan div {
   flex: 1;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 10rem; 
+}
+
+.buttonc {
+  margin-left: 22rem;
 }
 
 label {
@@ -347,15 +357,11 @@ button:focus {
   border-radius: 20px;
   width: 80%;
   max-width: 500px;
-  position: relative;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: #000080;
   font-size: 0.95rem;
   line-height: 1.5;
-}
-
-.relative {
-  position: relative;
+  margin-right: 1px;
 }
 
 .inline-flex {
@@ -441,15 +447,6 @@ button {
   box-shadow: 0 0 0 2px rgba(0, 0, 128, 0.1);
 }
 
-.error-message {
-  background-color: #ffebee;
-  color: #c62828;
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
 .toggle-auth {
   text-align: center;
   margin-top: 1.5rem;
@@ -512,19 +509,6 @@ button {
   width: 100%;
   padding: 20px;
   color: #000080;
-}
-
-.tooltip-content {
-  background: #E9F1FA;
-  padding: 1rem;
-  border-radius: 20px;
-  width: 80%;
-  max-width: 500px;
-  position: relative;  
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  color: #000080;
-  font-size: 0.95rem;
-  line-height: 1.5;
 }
 
 .modal-overlay {
@@ -656,12 +640,6 @@ button {
   .header-actions {
     flex-direction: column;
     gap: 0.5rem;
-  }
-
-  .tooltip-content {
-    width: 95%;
-    padding: 1rem;
-    font-size: 0.9rem;
   }
 
   .tooltip-content {
