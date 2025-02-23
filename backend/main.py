@@ -3,9 +3,15 @@ from flask_cors import CORS
 from utils import get_energy_data_for_portugal
 from models.component import Component, DigitalTwin
 from evaluator.ecological_evaluator import EcologicalEvaluator
+from train import train_model
+from predict import predict
+from model import LogisticRegressionModel
+from data_preparation import prepare_data
 
 app = Flask(__name__)
 CORS(app)
+
+model = LogisticRegressionModel(input_size=3) 
 
 @app.route('/evaluate', methods=['POST'])
 def evaluate_digital_twin():
@@ -47,6 +53,13 @@ def evaluate_digital_twin():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+@app.route('/predict', methods=['POST'])
+def make_prediction():
+    data = request.json
+    X, _ = prepare_data(data)  
+    predictions = predict(model, X)
+    return jsonify({'predictions': predictions.tolist()})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)
