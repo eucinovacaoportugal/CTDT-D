@@ -3,8 +3,8 @@ from models.component import DigitalTwin
 from scoring.criteria import EcologicalCriteria
 
 class EcologicalEvaluator:
-    def __init__(self):
-        self.criteria = EcologicalCriteria()
+    def __init__(self, weights=None):
+        self.criteria = EcologicalCriteria(weights)
         
     def evaluate(self, twin: DigitalTwin) -> Tuple[float, str, Dict[str, float]]:
         
@@ -27,10 +27,13 @@ class EcologicalEvaluator:
             waste_score * self.criteria.weights['waste'] 
         )
         
-        if final_score >= 75:
-            classification = "Ecologic"
-        elif final_score >= 50:
-            classification = "Moderate"
-        else:
-            classification = "Not ecologic"
+        classification = self.classify(final_score)
         return final_score, classification, scores
+
+    def classify(self, final_score: float) -> str:
+        if final_score >= 75:
+            return "Ecologic"
+        elif final_score >= 50:
+            return "Moderate"
+        else:
+            return "Not ecologic"

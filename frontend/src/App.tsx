@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-// import { HelpCircle, X } from 'lucide-react';
+import { HelpCircle, X } from 'lucide-react';
 import AuthModal from './AuthModal';
 import Dropdown from './Dropdown';
 import './App.css';
@@ -23,63 +23,63 @@ interface EvaluationResults {
   detailed_scores: Record<string, number>;
 }
 
-// interface TooltipProps {
-//   content: string;
-//   children: React.ReactNode;
-// }
+interface TooltipProps {
+  content: string;
+  children: React.ReactNode;
+}
 
-// const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
-//   const [isVisible, setIsVisible] = useState(false);
-//   const tooltipRef = useRef<HTMLDivElement>(null);
+const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
-//   useEffect(() => {
-//     const handleClickOutside = (event: MouseEvent) => {
-//       if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
-//         setIsVisible(false);
-//       }
-//     };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+        setIsVisible(false);
+      }
+    };
 
-//     if (isVisible) {
-//       document.addEventListener('mousedown', handleClickOutside);
-//     }
+    if (isVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
 
-//     return () => {
-//       document.removeEventListener('mousedown', handleClickOutside);
-//     };
-//   }, [isVisible]);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isVisible]);
 
-//   const toggleTooltip = (e: React.MouseEvent) => {
-//     e.stopPropagation();
-//     setIsVisible(!isVisible);
-//   };
+  const toggleTooltip = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsVisible(!isVisible);
+  };
 
-//   return (
-//     <div className="relative inline-flex items-center" ref={tooltipRef}>
-//       <div className="flex items-center gap-1">
-//         {children}
-//         <HelpCircle 
-//           className="w-4 h-4 cursor-pointer" 
-//           style={{ color: '#000080' }} 
-//           onClick={toggleTooltip}
-//         />
-//       </div>
-//       {isVisible && (
-//         <div className="tooltip-overlay">
-//           <div className="tooltip-content">
-//             <X 
-//               className="absolute top-1 right-1 w-4 h-4 cursor-pointer" 
-//               style={{ color: '#000080' }} 
-//               onClick={() => setIsVisible(false)}
-//             />
-//             <div className="ml-5 mt-2">
-//               {content}
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
+  return (
+    <div className="relative inline-flex items-center" ref={tooltipRef}>
+      <div className="flex items-center gap-1">
+        {children}
+        <HelpCircle 
+          className="w-4 h-4 cursor-pointer" 
+          style={{ color: '#000080' }} 
+          onClick={toggleTooltip}
+        />
+      </div>
+      {isVisible && (
+        <div className="tooltip-overlay">
+          <div className="tooltip-content">
+            <X 
+              className="absolute top-1 right-1 w-4 h-4 cursor-pointer" 
+              style={{ color: '#000080' }} 
+              onClick={() => setIsVisible(false)}
+            />
+            <div className="ml-5 mt-2">
+              {content}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 function MainContent() {
   const [components, setComponents] = useState<ComponentData[]>([{
@@ -92,9 +92,20 @@ function MainContent() {
     lifecycleManagement: ''
   }]);
   const [results, setResults] = useState<EvaluationResults | null>(null);
-  // const tooltips  = {
-  //   component: "To evaluate you system, describe it with values on the 'Description' field. Select the types of the values from your input, and click 'Evaluate'. To evaluate two systems at once, click 'Add System' and fill it with the same requirements.",
-  // };
+  const [digitalTwinStatus, setDigitalTwinStatus] = useState('');
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
+
+  const videoRef = useRef<HTMLDivElement | null>(null);
+
+  const tooltips  = {
+    component: "To evaluate your system, describe it with values on the 'Description' field. Select the types of the values from your input, and click 'Evaluate'. To evaluate two systems at once, click 'Add System' and fill it with the same requirements.",
+  };
+
+  const scrollToVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem('evaluationHistory', JSON.stringify(history));
@@ -141,6 +152,10 @@ function MainContent() {
     }
   };
 
+  const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDigitalTwinStatus(e.target.value);
+  };
+
   return (
     <div className="App">
       <header>
@@ -150,6 +165,15 @@ function MainContent() {
             <img src="/ctdt-c.png" alt="CTDT-C Logo" className="ctdt-logo" />
           </div>
           <h1>Circular Transformation in Digital Twin Deployment</h1>
+          <HelpCircle 
+            className="w-6 h-6 cursor-pointer" 
+            style={{ color: '#000080' }} 
+            onClick={() => {
+              setIsVideoVisible(true);
+              scrollToVideo();
+            }}
+            aria-label="Help"
+          />
         </div>
         <div className="header-actions">
           <AuthModal />
@@ -157,9 +181,21 @@ function MainContent() {
       </header>
 
       <form>
+        <label htmlFor="digitalTwinStatus">Select your digital twin status:</label>
+        <select 
+          id="digitalTwinStatus" 
+          value={digitalTwinStatus} 
+          onChange={handleSelectionChange} 
+          required
+        >
+          <option value="" disabled>Select an option</option>
+          <option value="deployed">I already have a deployed digital twin</option>
+          <option value="planning">I'm planning my digital twin system</option>
+        </select>
+
         {components.map((component, index) => (
           <div key={index} className="component-group">
-            {/* <Tooltip content={tooltips.component} children={undefined}></Tooltip> */}
+            <Tooltip content={tooltips.component} children={undefined}></Tooltip>
             <h3>#{index + 1}</h3>
             <label>Description</label>
             <input type="text" placeholder="..." value={component.name} onChange={(e) => handleComponentChange(index, 'name', e.target.value)} />
@@ -214,15 +250,36 @@ function MainContent() {
         </div>
       </form>
 
+      {isVideoVisible && (
+        <section className="tutorial-video" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, marginTop: '20px' }}>
+          <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: '20px', textAlign: 'right', borderRadius: '10px', width: '80%', maxWidth: '800px' }}>
+            <button onClick={() => setIsVideoVisible(false)} style={{ color: 'white', border: 'none', background: 'none', fontSize: '20px', cursor: 'pointer' }}>
+              <X />
+            </button>
+            <iframe 
+              width="100%"
+              height="400"
+              src="https://www.youtube.com/embed/your_tutorial_video_id"
+              title="Tutorial Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ borderRadius: '10px' }}
+            ></iframe>
+          </div>
+        </section>
+      )}
+
       {results && (
         <div className="results">
-          <h2>Results</h2>
           <p>Your system has been evaluated based on several sustainability metrics.</p>
 
           <h3>Overall Score: {results.final_score}</h3>
+
           <p>This score represents the overall sustainability of your digital twin. Higher scores indicate a more efficient and environmentally friendly setup.</p>
 
           <h3>Classification: {results.classification}</h3>
+          
           <p>The classification helps understand how well your system aligns with sustainability goals:</p>
           <ul>
             <li><strong>Ecologic (75+):</strong> Your system is highly sustainable and optimized for minimal environmental impact.</li>

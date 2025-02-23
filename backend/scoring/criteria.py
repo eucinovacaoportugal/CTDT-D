@@ -2,8 +2,8 @@ from typing import List as TypeList
 from models.component import Component
 
 class EcologicalCriteria:
-    def __init__(self):
-        self.weights = {
+    def __init__(self, weights=None):
+        self.weights = weights or {
             'component_efficiency': 0.2,
             'reusability': 0.2,
             'energy_source': 0.25,

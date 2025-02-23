@@ -1,7 +1,7 @@
 body {
   font-family: 'Inter', sans-serif;
-  background-color: white;
-  color: #000080;
+  background-color: #1a1a1a; /* Dark background */
+  color: #ffffff; /* White text for contrast */
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -19,35 +19,33 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #E9F1FA;
+  background-color: #2c2c2c; /* Dark grey background */
   padding: 2rem;
-  color: #000080;
+  color: #ffffff; /* White text */
   width: 100vw;  
   height: 125px;
   max-width: 1500px; 
   box-sizing: border-box;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 10;
 }
 
 .toggle-btn {
-  background-color: transparent;
-  color: #000080;
-  padding: 0.5rem;
-  width: auto;
-  font-size: 1.8rem; 
+  background-color: #003366; /* Navy blue */
+  color: white; /* White text for contrast */
+  padding: 0.75rem 1.5rem; /* Increased padding for better touch targets */
   border: none;
+  border-radius: 5px; /* Rounded corners */
   cursor: pointer;
-  transition: color 0.3s ease;
-  outline: none !important;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Added transition */
 }
 
 .toggle-btn:hover {
-  color: #000080;
-  background-color: transparent;
+  background-color: #002244; /* Darker navy on hover */
+  transform: translateY(-2px); /* Slight lift effect */
 }
 
 .toggle-btn:focus {
@@ -73,11 +71,11 @@ form h2, .results h2 {
 }
 
 form {
-  background: #E9F1FA;
+  background: #2c2c2c; /* Dark grey */
   padding: 2rem;
   margin: 1rem auto;
   border-radius: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   max-width: 1250px; 
   width: 100%;  
 }
@@ -127,14 +125,13 @@ label {
 input, select {
   width: 100%;
   margin-bottom: 1rem;
-  margin-right: 2rem;
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  border-radius: 8px;
-  box-sizing: border-box;
-  border: 1px solid #000080;
-  background-color: #000080;
-  transition: all 0.3s ease;
+  border-radius: 5px; /* Updated for a more modern look */
+  border: 1px solid #003366; /* Navy blue border */
+  background-color: #444444; /* Dark grey for inputs */
+  color: #ffffff; /* White text */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Added transition */
 }
 
 input::placeholder {
@@ -144,27 +141,23 @@ input::placeholder {
 
 input:focus, select:focus {
   outline: none;
-  border-color: #000080;
-  box-shadow: 0 0 0 2px rgba(15, 216, 80, 0.2);
+  border-color: #002244; /* Darker navy on focus */
+  box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.5); /* Navy focus shadow */
 }
 
 button {
-  background-color: transparent;
-  color: #000080;
-  font-weight: 8000;
-  font-weight: bold;
-  padding: 0.75rem 1.5rem;
+  background-color: #003366; /* Navy blue */
+  color: white; /* White text for contrast */
+  padding: 0.75rem 1.5rem; /* Increased padding for better touch targets */
   border: none;
-  border-radius: 8px;
+  border-radius: 5px; /* Rounded corners */
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 0.5rem;
-  min-width: 150px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Added transition */
 }
 
 button:hover {
-  background-color: transparent;
-  transform: translateY(-1px);
+  background-color: #002244; /* Darker navy on hover */
+  transform: translateY(-2px); /* Slight lift effect */
 }
 
 button:focus {
@@ -174,16 +167,16 @@ button:focus {
 .results {
   margin: 1rem auto 2rem;
   padding: 2rem;
-  background: #E9F1FA;
+  background: #2c2c2c; /* Dark grey */
   border-radius: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   max-width: 1250px; 
   width: 100%;  
 }
 
 .results h3 {
   font-size: 1.4rem;
-  color: #000080;
+  color: #ffffff; /* White text */
   margin: 1.5rem 0 1rem;
 }
 
@@ -191,9 +184,9 @@ button:focus {
   font-size: 1rem;
   margin: 0.75rem 0;
   padding: 0.5rem;
-  background: #d7e3f7;
+  background: #444444; /* Dark grey */
   border-radius: 8px;
-  color: #000080;
+  color: #ffffff; /* White text */
 }
 
 .final-score-classification {
@@ -517,7 +510,7 @@ button {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8); /* Darker overlay for better contrast */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -525,17 +518,13 @@ button {
 }
 
 .modal-content {
-  position: relative;
-  background: #E9F1FA;;
-  width: 500px; 
-  max-width: 90%;
+  background: #2c2c2c; /* Dark grey for modal */
   padding: 2rem;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  border-radius: 10px; /* Updated for a more modern look */
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Enhanced shadow for depth */
+  color: #ffffff; /* White text */
 }
 
 .modal-content h2 {
