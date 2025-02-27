@@ -48,33 +48,14 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
     };
   }, [isVisible]);
 
-  const toggleTooltip = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsVisible(!isVisible);
-  };
-
   return (
-    <div className="relative inline-flex items-center" ref={tooltipRef}>
-      <div className="flex items-center gap-1">
+    <div ref={tooltipRef}>
+      <div onClick={() => setIsVisible(!isVisible)}>
         {children}
-        <HelpCircle 
-          className="w-4 h-4 cursor-pointer" 
-          style={{ color: '#000080' }} 
-          onClick={toggleTooltip}
-        />
       </div>
       {isVisible && (
-        <div className="tooltip-overlay">
-          <div className="tooltip-content">
-            <X 
-              className="absolute top-1 right-1 w-4 h-4 cursor-pointer" 
-              style={{ color: '#000080' }} 
-              onClick={() => setIsVisible(false)}
-            />
-            <div className="ml-5 mt-2">
-              {content}
-            </div>
-          </div>
+        <div className="tooltip-content">
+          {content}
         </div>
       )}
     </div>
@@ -181,22 +162,21 @@ function MainContent() {
       </header>
 
       <form>
-        <label htmlFor="digitalTwinStatus">Select your digital twin status:</label>
-        <select 
-          id="digitalTwinStatus" 
-          value={digitalTwinStatus} 
-          onChange={handleSelectionChange} 
-          required
-        >
-          <option value="" disabled>Select an option</option>
-          <option value="deployed">I already have a deployed digital twin</option>
-          <option value="planning">I'm planning my digital twin system</option>
-        </select>
-
         {components.map((component, index) => (
           <div key={index} className="component-group">
             <Tooltip content={tooltips.component} children={undefined}></Tooltip>
             <h3>#{index + 1}</h3>
+            <label htmlFor="digitalTwinStatus">Select your digital twin status:</label>
+            <select 
+              id="digitalTwinStatus" 
+              value={digitalTwinStatus} 
+              onChange={handleSelectionChange} 
+              required
+            >
+              <option value="" disabled>Select an option</option>
+              <option value="deployed">I already have a deployed digital twin</option>
+              <option value="planning">I'm planning my digital twin system</option>
+            </select>
             <label>Description</label>
             <input type="text" placeholder="..." value={component.name} onChange={(e) => handleComponentChange(index, 'name', e.target.value)} />
             <div className="consumption-lifespan">
@@ -251,23 +231,23 @@ function MainContent() {
       </form>
 
       {isVideoVisible && (
-        <section className="tutorial-video" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, marginTop: '20px' }}>
-          <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: '20px', textAlign: 'right', borderRadius: '10px', width: '80%', maxWidth: '800px' }}>
-            <button onClick={() => setIsVideoVisible(false)} style={{ color: 'white', border: 'none', background: 'none', fontSize: '20px', cursor: 'pointer' }}>
-              <X />
+        <div className="tutorial-video-overlay">
+          <div className="tutorial-video-container">
+            <button 
+              className="tutorial-video-close"
+              onClick={() => setIsVideoVisible(false)}
+            >
+              ×
             </button>
-            <iframe 
-              width="100%"
-              height="400"
+            <iframe
+              className="tutorial-video-frame"
               src="https://www.youtube.com/embed/your_tutorial_video_id"
               title="Tutorial Video"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              style={{ borderRadius: '10px' }}
-            ></iframe>
+            />
           </div>
-        </section>
+        </div>
       )}
 
       {results && (

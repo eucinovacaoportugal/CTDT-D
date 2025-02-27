@@ -77,7 +77,8 @@ const AuthModal = () => {
                         role="dialog"
                         aria-modal="true"
                     >
-
+                    
+                    <h2>{isSignup ? "Create an Account" : "Login"}</h2>
                     <button 
                         className="close-button" 
                         onClick={() => setIsOpen(false)} 
@@ -85,8 +86,6 @@ const AuthModal = () => {
                     >
                         ✕
                     </button>
-                    
-                    <h2>{isSignup ? "Create an Account" : "Login"}</h2>
                     
                     <form onSubmit={handleSubmit}>
                         <input
@@ -112,7 +111,7 @@ const AuthModal = () => {
                             className="submit-button" 
                             disabled={loading}
                         >
-                            {loading ? "Loading..." : (isSignup ? "Sign Up" : "Login")}
+                            {loading ? "Loading..." : (isSignup ? "Sign Up" : "Enter")}
                         </button>
                     </form>
 
