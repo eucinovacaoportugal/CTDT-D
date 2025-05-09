@@ -75,6 +75,7 @@ function MainContent() {
   const [results, setResults] = useState<EvaluationResults | null>(null);
   const [digitalTwinStatus, setDigitalTwinStatus] = useState('');
   const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const videoRef = useRef<HTMLDivElement | null>(null);
 
@@ -111,6 +112,7 @@ function MainContent() {
   };
 
   const evaluateTwin = async () => {
+    setIsLoading(true);  
     try {
       const response = await fetch('https://ctdt-d.onrender.com/evaluate', {
         method: 'POST',
@@ -120,16 +122,18 @@ function MainContent() {
           components: components,
         }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to fetch results');
       }
-
+  
       const data: EvaluationResults = await response.json();
       setResults(data);
     } catch (error) {
       console.error('Error evaluating digital twin:', error);
       alert('Failed to evaluate digital twin. Please check the input and server connection.');
+    } finally {
+      setIsLoading(false);  
     }
   };
 
@@ -139,6 +143,16 @@ function MainContent() {
 
   return (
     <div className="App">
+    {isLoading && (
+      <div className="loading-overlay">
+        <div className="loading-text">
+          Loading…
+        </div>
+        <div className="loading-subtext">
+          Our AI is pondering the information and calculating a result.
+        </div>
+      </div>
+    )}
       <header>
         <div className="header-content">
           <div className="header-logos">
@@ -225,7 +239,7 @@ function MainContent() {
           </div>
         ))}
         <div className="buttons">
-          <button className="buttonc" type="button" onClick={addComponent}>Add System</button>
+          <button className="buttonc" type="button" onClick={addComponent}>Add </button>
           <button type="button" onClick={evaluateTwin}>Evaluate</button>
         </div>
       </form>
