@@ -114,7 +114,8 @@ function MainContent() {
   const evaluateTwin = async () => {
     setIsLoading(true);  
     try {
-      const response = await fetch('https://ctdt-d.onrender.com/evaluate', {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://ctdt-d-server.onrender.com';
+      const response = await fetch(`${apiBaseUrl}/evaluate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
