@@ -58,8 +58,11 @@ def evaluate_digital_twin():
 def make_prediction():
     data = request.json
     X, _ = prepare_data(data)  
-    predictions = predict(model, X)
-    return jsonify({'predictions': predictions.tolist()})
+    predictions = []
+    for x in X:
+        pred = predict(model, x)
+        predictions.append(pred)
+    return jsonify({'predictions': predictions})
 
 if __name__ == '__main__':
     import os

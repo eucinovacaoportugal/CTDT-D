@@ -1,15 +1,21 @@
-import numpy as np
+import random
+import math
 
 class LogisticRegressionModel:
     def __init__(self, input_size):
-        self.weights = np.random.randn(input_size, 1) * 0.01
+        self.weights = [[random.gauss(0, 0.01)] for _ in range(input_size)]
         self.bias = 0.0
         
     def sigmoid(self, x):
-        return 1 / (1 + np.exp(-np.clip(x, -250, 250)))  # Clip to prevent overflow
+        # Clip x to prevent overflow
+        x = max(-250, min(250, x))
+        return 1 / (1 + math.exp(-x))
+        
+    def dot_product(self, a, b):
+        return sum(a[i] * b[i][0] for i in range(len(a)))
         
     def predict(self, x):
-        if isinstance(x, list):
-            x = np.array(x)
-        z = np.dot(x, self.weights) + self.bias
+        if not isinstance(x, list):
+            x = list(x)
+        z = self.dot_product(x, self.weights) + self.bias
         return self.sigmoid(z)  
